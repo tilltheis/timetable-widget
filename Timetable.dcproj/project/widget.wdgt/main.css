@@ -1,0 +1,490 @@
+/********************/
+/* GENERAL SETTINGS */
+/********************/
+
+@font-face {
+    font-family: Blokletters;
+    src: url("Fonts/Blokletters-Balpen.ttf");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Blokletters;
+    src: url("Fonts/Blokletters-Viltstift.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Blokletters;
+    src: url("Fonts/Blokletters-Potlood.ttf");
+    font-weight: lighter;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-transition: opacity .1s linear;
+}
+
+
+a, .external {
+    cursor: pointer;
+    text-decoration: underline;
+    color: inherit;
+}
+
+
+/* not available yet */
+.box .edit {
+    display: none;
+}
+
+
+
+
+
+/**************************/
+/* FRONT GENERAL SETTINGS */
+/**************************/
+
+#front {
+	width: 250px;
+	font-family: Blokletters;
+}
+
+#info {
+    position: absolute;
+    right: 31px;
+    bottom: 30px;
+    
+    width: 13px;
+    height: 13px;
+    
+    z-index: 99;
+}
+
+
+.outdated, .updated {
+    -webkit-transition: color .2s linear;
+}
+
+.outdated {
+    color: rgba(0, 0, 0, 0);
+}
+.updated {
+    color: rgba(0, 0, 0, 1);
+}
+
+
+
+
+
+/**********************/
+/* FRONT TOP SETTINGS */
+/*       TITLE        */
+/**********************/
+
+#title {
+	position: absolute;
+	top: 0;
+	left: 0;
+    
+	width: 250px;
+	height: 50px;
+    
+	background: url("Images/top.png");
+    z-index: 1;
+    
+    text-align:center;
+}
+
+#day_cur {
+	padding-top: 28px;
+	text-align: center;
+	font-size: 20px;
+    font-weight: bold;
+    
+    display: inline-block;
+}
+
+#day_prev {
+	position: absolute;
+	left: 31px;
+	top: 34px;
+}
+
+#day_next {
+	position: absolute;
+	left: 206px;
+	top: 30px;
+}
+
+
+
+
+
+/*************************/
+/* FRONT MIDDLE SETTINGS */
+/*       TIMETABLE       */
+/*************************/
+
+#timetable {
+	position: absolute;
+	left: 0;
+	top: 50px;
+    bottom: 26px;
+    
+	width: 250px;
+    
+	font-size: 14px;
+	font-weight: normal;
+    
+    padding-top: 6px;
+
+   	background: url("Images/middle.png");
+
+    display: block;
+    
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+.lesson {
+	line-height: 25px;
+	vertical-align: bottom;
+    
+    height: 25px;
+    
+    /*-webkit-transition: opacity .4s linear;*/
+    /*opacity: 0; /* .updated will bring the opacity back */
+}
+
+.time {
+	text-indent: 29px;
+	width: 67px;
+	text-align: center;
+    font-size: 80%;
+}
+
+.subject {
+	text-indent: 10px;
+}
+
+
+
+
+
+/*************************/
+/* FRONT BOTTOM SETTINGS */
+/*        STATUS         */
+/*************************/
+
+#status {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+    
+	width: 250px;
+    height: 50px;
+        
+	background: url("Images/bottom.png");
+    z-index: 1;
+    
+    line-height: 30px;
+	text-align: center;
+    font-weight: lighter;
+	font-size: 12px;
+}
+
+
+
+
+
+/*************************/
+/* BACK GENERAL SETTINGS */
+/*************************/
+
+#back {
+    display: none;
+    
+    font-family: "Helvetiva Neue", Helvetiva;
+    font-weight: bold;
+    font-size: 13px;
+    color: white;
+}
+
+#backImgContainer {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: -1;
+}
+
+#backImg {
+    width: 100%;
+    height: 100%;
+}
+
+
+#preferencesContainer {
+    position: absolute; /* important to calculate real height of contents */
+    top: 0;
+    left: 14px;
+    right: 14px;
+    
+    padding: 24px 12px 20px; /* required for resizing with JS */
+}
+
+
+#help {
+    float: left;
+}
+
+
+#done {
+    float: right;
+}
+
+
+
+
+
+/******************************/
+/* BACK FORM GENERAL SETTINGS */
+/******************************/
+
+.master, .slave {
+    position: relative;
+}
+
+.master {
+    margin-top: 10px;
+}
+
+.slave {
+    margin-left: 14px;
+}
+
+
+
+
+
+/******************************/
+/* BACK FORM FOLDING SETTINGS */
+/******************************/
+
+.expander:before, .collapser:before {
+    font-family: "Apple Symbols";
+}
+
+.expander:before {
+    content: "▶";
+}
+
+.collapser:before {
+    content: "▼";
+    margin-left:-1px; /* symbol is 1px wider than the other one */
+}
+
+
+.expansible {
+    height: 0 !important;
+    margin: 0;
+    overflow: hidden;
+}
+
+.collapsible {
+    height: auto !important;
+}
+
+
+
+
+
+/*******************************/
+/* BACK TIMETABLE BOX SETTINGS */
+/*******************************/
+
+#boxContainer {
+    height: 92px;
+    margin-bottom: 10px;
+}
+
+#oddBox {
+    float: right;
+}
+
+#evenBox {
+    float: left;
+}
+
+.box {
+    position: relative;
+    
+    width: 90px;
+    height: 90px;
+    
+    border: 1px solid #666;
+    -webkit-border-radius: 10px;
+    background: rgba(0, 0, 0, .3);
+    
+    text-align: center;
+    line-height: 100px;
+    font-family: "Zapf Dingbats";
+    
+    z-index: 1;
+}
+
+
+.edit, .remove {
+    position: absolute;
+    right: 5px;
+    
+    font-size: 30px;
+    line-height: 30px;
+    color: white;
+    
+    opacity: 0.1;
+    z-index: 2;
+}
+
+.box:hover .edit, .box:hover .remove {
+    opacity: 0.5;
+}
+
+.edit:hover, .remove:hover {
+    opacity: 1.0 !important; /* in conflict with .box:hover .edit/.remove ?! */
+}
+
+.edit {
+    top: 10%;
+}
+
+.remove {
+    bottom: 10%;
+}
+
+
+.label {
+    z-index: 1;
+    
+    font-size: 13px;
+    
+    line-height: 45px;
+    
+    position: absolute;
+    
+    display: block;
+    height: 90px;
+    width: 90px;
+    word-spacing: 90px;
+    
+    -webkit-transition: opacity 1s linear;
+}
+
+.box:hover .label {
+    -webkit-transition: opacity .2s linear;
+    opacity: 0;
+}
+
+
+
+
+
+/*****************************************/
+/* BACK TIMETABLE BOX INDICATOR SETTINGS */
+/*****************************************/
+
+@-webkit-keyframes highlightYesIndicator {
+    0% {
+        opacity: 0;
+        color: #1e9e30;
+    }
+    
+    50% {
+        opacity: 1;
+        color: #1e9e30;
+    }
+    
+    100% {
+        opacity: auto;
+        color: #666;
+    }
+}
+@-webkit-keyframes highlightNoIndicator {
+    0% {
+        opacity: 0;
+        color: #b70000;
+    }
+    
+    50% {
+        opacity: 1;
+        color: #b70000;
+    }
+    
+    100% {
+        opacity: auto;
+        color: #666;
+    }
+}
+
+
+.indicator {
+    font-size: 100px;
+    color: #666;
+    
+    -webkit-animation-duration: .2s; /* 0 */
+    
+    position: relative;
+}
+
+.indicator.yes, .indicator.no {
+    -webkit-animation: '' 4s linear .2s;
+    color: #666;
+}
+
+.indicator.yes.updated {
+    -webkit-animation-name: 'highlightYesIndicator';
+}
+.indicator.no.updated {
+    -webkit-animation-name: 'highlightNoIndicator';
+}
+
+
+.indicator.yes .no, .indicator.no .yes {
+    -webkit-transition: opacity .2s linear;
+    opacity: 0;
+}
+
+.indicator .yes, .indicator .no {
+    position: absolute;
+    left: -5px;
+    top: 0;
+    
+    width:100px;
+    height:100px;
+    
+    opacity: 0;
+}
+
+.indicator.yes .yes, .indicator.no .no {
+    -webkit-transition: opacity 0 linear .2s;
+    opacity: 1;
+}
+
+
+
+
+
+/**********************************/
+/* BACK ELEMENT SPECIFIC SETTINGS */
+/**********************************/
+
+#importOptions {
+    height: 0;
+    overflow: hidden;
+}

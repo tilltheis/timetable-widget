@@ -1,0 +1,5 @@
+.DS_Store
+*.swp
+*~
+Timetable.dcproj/projectInfo.plist
+Timetable.dcproj/*.wdgtuser

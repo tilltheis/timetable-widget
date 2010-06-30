@@ -1,0 +1,9 @@
+Thank you for downloading this widget.
+
+The widget's source code (all .js and .sh files) is published under the MIT-license (often referred to as the X11-license).
+The Blokletters font by LeFly (http://lefly.vepar.nl/) is licensed under the Creative Commons Attribution-Share Alike 2.5 license (http://creativecommons.org/licenses/by-sa/2.5/nl/deed.en).
+The forward and backward pointing arrow images (Images/arrowBackward.png and Images/arrowForward.png) are created by myukiori (http://myukiori.deviantart.com/) and are licensed under the Creative Commons Attribution-Noncommercial-Share Alike 3.0 license (http://creativecommons.org/licenses/by-nc-sa/3.0/).
+
+Copies of all three licenses (in English) are included in this package (MIT.txt, CC-BY-SA-2.5.txt, CC-BY-NC-SA-3.0.txt).
+
+Big thanks goes to the aforementioned artists for their great work.
