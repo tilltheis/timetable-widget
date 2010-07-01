@@ -44,14 +44,14 @@ if (!String.prototype.csvSplit) {
     }
 }
 
-var csvToArray = function(str, separator) {
+var csvToArray = function(str, lineSeparator, columnSeparator) {
     str = str.replace(/^\s+/, '').replace(/\s+$/, '');
+
+    var lineSeparators = lineSeparator ? [lineSeparator] : ["\n", "\r"]; // "\n" also matches "\r\n" ("\r" will be trimmed)
+    var columnSeparators = columnSeparator ? [columnSeparator] : [';', ','];
     
-    var lineSeparators = ["\n", "\r"]; // "\n" also matches "\r\n" ("\r" will be trimmed)
-    var columnSeparators = [';', ','];
     
     var lines = [];
-    
     
     for (var i = 0; i < lineSeparators.length; ++i) {
         lines = str.csvSplit(lineSeparators[i]);
