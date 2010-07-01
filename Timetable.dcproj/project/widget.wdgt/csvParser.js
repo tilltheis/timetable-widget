@@ -45,26 +45,46 @@ if (!String.prototype.csvSplit) {
 }
 
 var csvToArray = function(str, separator) {
-    if (!separator) {
-        separator = ';';
-    }
-
-    var lines = str.csvSplit("\r\n");
-    if (lines.length === 1)
-        lines = str.csvSplit("\n");
-
-    for (var i = 0; i < lines.length; ++i) {
-        lines[i] = lines[i].csvSplit(separator);
-
-        for (var j = 0; j < lines[i].length; ++j) {
-            if (lines[i][j] !== '""')
-                lines[i][j] = lines[i][j].replace(/""/, '"');
-
-            if ('"' == lines[i][j].charAt(0)) {
-                lines[i][j] = lines[i][j].substr(1, lines[i][j].length - 2);
-            }
+    str = str.replace(/^\s+/, '').replace(/\s+$/, '');
+    
+    var lineSeparators = ["\n", "\r"]; // "\n" also matches "\r\n" ("\r" will be trimmed)
+    var columnSeparators = [';', ','];
+    
+    var lines = [];
+    
+    
+    for (var i = 0; i < lineSeparators.length; ++i) {
+        lines = str.csvSplit(lineSeparators[i]);
+        if (lines.length > 1) {
+            break;
         }
     }
 
-    return lines;
+    
+    var columns = [];
+
+    for (var i = 0; i < columnSeparators.length; ++i) {
+        var separator = columnSeparators[i];
+        
+        for (var j = 0; j < lines.length; ++j) {
+            columns[j] = lines[j].csvSplit(separator);
+
+            for (var k = 0; k < columns[j].length; ++k) {
+                if (columns[j][k] !== '""')
+                    columns[j][k] = columns[j][k].replace(/""/, '"');
+
+                if ('"' == columns[j][k].charAt(0)) {
+                    columns[j][k] = columns[j][k].substr(1, columns[j][k].length - 2);
+                }
+            }
+        }
+        
+        
+        if (columns.length > 0 && columns[0].length > 1) {
+            break;
+        }
+    }
+    
+
+    return columns;
 }
