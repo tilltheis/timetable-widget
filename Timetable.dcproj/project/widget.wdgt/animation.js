@@ -9,35 +9,50 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 
-var gResizeWidgetAnimator;
-var gResizeWidgetAnimation;
-
+var gResizeWidgetHeightAnimator;
+var gResizeWidgetHeightAnimation;
 
 
 function setupAnimation() {
-    gResizeWidgetAnimator = new AppleAnimator(400, 13);
-    gResizeWidgetAnimation = new AppleAnimation(0, 0, resizeWidgetHeightAnimationHandler);
-    gResizeWidgetAnimator.addAnimation(gResizeWidgetAnimation);
+    gResizeWidgetHeightAnimator  = new AppleAnimator(400, 13);
+    gResizeWidgetHeightAnimation = new AppleAnimation(0, 0, function(a, c, s, f) {
+        window.resizeTo(window.innerWidth, c);
+    });
+    
+    gResizeWidgetHeightAnimator.addAnimation(gResizeWidgetHeightAnimation);
 }
 
+//function resizeWidget(newWidth, newHeight, onComplete, animator, animation) {
+//    newWidth  = newWidth  || window.innerWidth;
+//    newHeight = newHeight || window.innerHeight;
+//
+//    animator.stop();
+//
+//    animation.from = { left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight };
+//    animation.to   = { left: 0, top: 0, right: newWidth,          bottom: newHeight          };
+//
+//    animator.oncomplete = onComplete;
+//
+//    animator.start();
+//}
 
-function resizeWidgetHeightAnimationHandler(animation, current, start, finish) {
-    window.resizeTo(window.innerWidth, current);
+
+
+function resizeWidgetHeight(newHeight, onComplete) {
+    gResizeWidgetHeightAnimator.stop();
+
+    gResizeWidgetHeightAnimation.from      = window.innerHeight;
+    gResizeWidgetHeightAnimation.to        = newHeight;
+    gResizeWidgetHeightAnimator.oncomplete = onComplete;
+    
+    gResizeWidgetHeightAnimator.start();
 }
-
-
-
 
 function resizeWidgetToShowBack(onComplete) {
-    gResizeWidgetAnimator.stop();
-
-    gResizeWidgetAnimation.from = window.innerHeight;
-    gResizeWidgetAnimation.to = getHeightOfBack();
-
-    gResizeWidgetAnimator.oncomplete = onComplete;
-    
-    gResizeWidgetAnimator.start();
+    resizeWidgetHeight(getHeightOfBack(), onComplete);
 }
+
+
 
 function resizeWidgetToShowFront(onComplete) {
     var htmlTitle = document.getElementById('title');
@@ -55,14 +70,14 @@ function resizeWidgetToShowFront(onComplete) {
     var tableHeight = htmlTable.rows.length * rowHeight;
 
 
-    gResizeWidgetAnimator.stop();
+    gResizeWidgetHeightAnimator.stop();
 
-    gResizeWidgetAnimation.from = window.innerHeight;
-    gResizeWidgetAnimation.to = titleHeight + tableHeight + statusHeight;
+    gResizeWidgetHeightAnimation.from = window.innerHeight;
+    gResizeWidgetHeightAnimation.to = titleHeight + tableHeight + statusHeight;
     
-    gResizeWidgetAnimator.oncomplete = onComplete;
+    gResizeWidgetHeightAnimator.oncomplete = onComplete;
 
-    gResizeWidgetAnimator.start();
+    gResizeWidgetHeightAnimator.start();
 }
 
 

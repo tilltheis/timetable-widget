@@ -1,1 +1,5 @@
 add edit functionality
+prevent real widget from growing when adding rows to table
+adjust remove icon (on pressing ALT)
+test auto generated times column
+disable controls on the back while the edit pane is active

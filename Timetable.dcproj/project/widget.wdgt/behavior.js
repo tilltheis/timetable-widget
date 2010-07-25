@@ -143,11 +143,17 @@ function setupBehavior() {
         changeTimetableForWeek(0, null);
     }, false);
     
+    
+    
+editTimetable(1);
+
     $('editOdd').addEventListener('click', function() {
-        setValueForIndicator(0, $('oddIndicator'));
+        //setValueForIndicator(0, $('oddIndicator'));
+        editTimetable(1);
     }, false);
     $('editEven').addEventListener('click', function() {
-        setValueForIndicator(0, $('evenIndicator'));
+        //setValueForIndicator(0, $('evenIndicator'));
+        editTimetable(2);
     }, false);
     
     
@@ -170,4 +176,109 @@ function setupBehavior() {
             foldSection(this);
         }, false);
     }
+}
+
+
+
+
+
+
+
+
+function addEditTableRow(tbody) {
+    var idx = tbody.rows.length;
+    var row = tbody.insertRow(idx);
+    
+    var time = row.insertCell(0);
+    time.innerHTML = '<input type="text" value="' + (idx + 1) + '">';
+    
+    for (var i = 0; i < 5; ++i) {
+        var col = row.insertCell(i + 1);
+        col.innerHTML = '<input type="text">';
+    }
+    
+    // adjust height if the table is inside the DOM tree
+    var container = $('editTimetableContainer'); // is null if not inside DOM
+    if (container !== null && container.parentNode !== null) {
+        var height = getStyle(container, 'height', 'i') + 10;
+        if (height > window.innerHeight) {
+            window.resizeTo(window.innerWidth, height);
+        }
+    }
+    
+    
+    // improve experience for keyboard users
+    var els = row.getElementsByTagName('input');
+    for (var i = 0; i < els.length; ++i) {
+        makeInputTableFieldInputUsable(els[i]);
+    }
+    
+    return row;
+}
+
+
+
+
+
+
+function makeInputTableFieldInputUsable(el) {
+    el.addEventListener('keydown', function(e) {
+        var cell = this.parentNode;
+        var row  = cell.parentNode;
+        var cellIndex = cell.cellIndex;
+        var rowIndex  = row.sectionRowIndex;
+            
+        // Enter (Return) key ?
+        // jump between rows (and insert new rows if needed)
+        if (e.keyCode === 13) {
+            var newRow;
+             
+            if (e.shiftKey) {
+                newRow = row.previousSibling;
+                
+                if (newRow === null) {
+                    newRow = row.parentNode.parentNode.tHead.rows[0];
+                }
+            } else {
+                newRow = row.nextSibling;
+                
+                if (newRow === null) {
+                    if (row.parentNode.tagName === 'THEAD') {
+                        newRow = row.parentNode.parentNode.tBodies[0].rows[0];
+                    } else {
+                        var tbody = row.parentNode;
+                        newRow = addEditTableRow(tbody);
+                    }
+                }
+            }
+                                        
+            if (newRow !== null) {
+                newRow.cells[cellIndex].firstChild.focus();
+            }
+        }
+        else
+        // Tab key ?
+        // jump from beginning to end or insert new row
+        if (row.parentNode.tagName === 'TBODY' && e.keyCode === 9) {
+            var tbody = row.parentNode;
+            var newCell;
+             
+            if (e.shiftKey) {
+                if (rowIndex === 0 && cellIndex === 0) {
+                    var row = row.parentNode.parentNode.tHead.rows[0];
+                    newCell = row.cells[row.cells.length - 1];
+                }
+            } else {
+                if (rowIndex === tbody.rows.length - 1 && cellIndex === row.cells.length - 1) {
+                    var row = addEditTableRow(tbody);
+                    newCell = row.cells[0];
+                }
+            }
+                                        
+            if (newCell !== undefined) {
+                newCell.firstChild.focus();
+                e.preventDefault();
+            }
+        }
+    });
 }

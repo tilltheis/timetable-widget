@@ -28,7 +28,17 @@ Element.prototype.hasClass = function(cl) {
 }
 
 Element.prototype.getElementsByClassName = function(cl) {
-    var input = this.childNodes;
+    var input = this.getElementsByTagName('*');
+    var output = [];
+    
+    for (var i = 0; i < input.length; ++i) {//if (cl === 'add') { alert(input[i]); }
+        if (input[i].hasClass(cl))
+            output[output.length] = input[i];
+    }
+            
+    return output;
+    
+    /*var input = this.childNodes;
     var output = [];
     
     for (var i = 0; i < input.length; ++i) {
@@ -40,7 +50,7 @@ Element.prototype.getElementsByClassName = function(cl) {
         }
     }
             
-    return output;
+    return output;*/
 }
 
 
@@ -74,14 +84,16 @@ Element.prototype.getOffset = function() {
 
 
 document.getElementsByClassName = function(cl) {
-    var input = document.getElementsByTagName('*');
+    return document.documentElement.getElementsByClassName(cl);
+
+    /*var input = document.getElementsByTagName('*');
     var output = [];
     
     for (var i = 0; i < input.length; ++i)
         if (input[i].hasClass(cl))
             output[output.length] = input[i];
             
-    return output;
+    return output;*/
 }
 
 

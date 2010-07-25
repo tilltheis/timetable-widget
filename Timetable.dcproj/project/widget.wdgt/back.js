@@ -56,7 +56,7 @@ function changeTimetableForWeek(week, data) {
 
 function newTimetableForWeekWithPath(week, path) {
     var csvString = csvFileToString(path);
-    var obj = timetableCSVToObject(csvString);
+    var obj = csvStringToObject(csvString);
 
     changeTimetableForWeek(week, obj);
 }
@@ -88,7 +88,7 @@ function csvFileToString(path) {
 
 
 
-function timetableCSVToObject(csvString) {
+function csvStringToObject(csvString) {
 
     var table = [];
     
@@ -122,6 +122,13 @@ function timetableCSVToObject(csvString) {
             }
             
             table[i] = table[i].slice(1, table[i].length);
+        }
+    }
+    
+    // fill in default values for times
+    if (!firstColToTime || firstColToTimeIgnore) {
+        for (var i = 0; i < table.length; ++i) {
+            data.times[i] = i + 1;
         }
     }
     

@@ -87,10 +87,16 @@ function showCurrentDay()
         htmlTime.className    = 'time';
         htmlSubject.className = 'subject';
         
+        
         // blank if custom time strings are used. otherwise it's the row number
         // " \b" is required for blank lines. they woun't have any heigth otherwise
         // although css height property is set
-        htmlTime.innerText    = times[i] ? times[i] : (firstColToPeriod ? " \b" : i+1);
+        //htmlTime.innerText    = times[i] ? times[i] : (firstColToPeriod ? " \b" : i+1);
+        
+        // since v1.1 times are always saved in the preferences
+        htmlTime.innerText    = times[i] ? times[i] : " \b";
+        
+        
         htmlSubject.innerHTML = subjects[i];
     }
 }

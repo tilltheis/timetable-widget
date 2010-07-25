@@ -36,8 +36,17 @@ a, .external {
 
 
 /* not available yet */
-.box .edit {
+/*.box .edit {
     display: none;
+}*/
+
+
+#front, #back {
+    position: absolute;
+    left: 125px;
+    top: 0;
+    right: 125px;
+    bottom: 0;
 }
 
 
@@ -205,13 +214,15 @@ a, .external {
 /* BACK GENERAL SETTINGS */
 /*************************/
 
-#back {
-    display: none;
-    
+#back, #editTimetableContainer {
     font-family: "Helvetiva Neue", Helvetiva;
     font-weight: bold;
     font-size: 13px;
     color: white;
+}
+
+#back {
+    display: none;
 }
 
 #backImgContainer {
@@ -249,6 +260,65 @@ a, .external {
     float: right;
 }
 
+
+
+
+
+/************************************/
+/* TABLE EDIT PANE GENERAL SETTINGS */
+/************************************/
+
+#editTimetableContainer {
+    background: black;
+    opacity: 0.8;
+
+    -webkit-transition: opacity .2s linear;
+
+    
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    
+    z-index: 99;
+    
+    border: 5px solid black;
+    border-radius: 5px;
+}
+
+#editTimetableContainer thead input {
+    font-weight: bold;
+}
+
+#editTimetableContainer td:first-child {
+    width: 3em;
+}
+
+#editTimetableContainer td {
+    padding-right: 10px;
+}
+
+#editTimetableContainer td:last-child {
+    padding-right: 5px;
+}
+
+#editTimetableContainer input {
+    width: 100%;
+}
+
+#editTimetableContainer table {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.editAction {
+    float: right;
+    margin-left: 5px;
+}
+.editCommand {
+    float: left;
+    margin-right: 5px;
+}
 
 
 

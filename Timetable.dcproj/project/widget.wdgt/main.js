@@ -46,6 +46,10 @@ function load()
 
     updateDateAndShowDay();
     resizeWidgetToShowFront();
+    
+    $('front').style.display='none';
+    $('back').style.display='block';
+    resizeWidgetToShowBack();
 }
 
 function remove()
