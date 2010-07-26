@@ -190,3 +190,7 @@ String.prototype.capitalized = function() {
     
     return capitalizedString;
 }
+
+String.prototype.escapeHtmlSpecialChars = function() {
+    return this.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}

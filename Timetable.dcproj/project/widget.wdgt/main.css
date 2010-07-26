@@ -159,6 +159,10 @@ a, .external {
     border-collapse: collapse;
 }
 
+#timetable * {
+    overflow: hidden;
+}
+
 .lesson {
 	line-height: 25px;
 	vertical-align: bottom;
@@ -171,13 +175,14 @@ a, .external {
 
 .time {
 	text-indent: 29px;
-	width: 67px;
+	max-width: 67px;
 	text-align: center;
     font-size: 80%;
 }
 
 .subject {
 	text-indent: 10px;
+    max-width: 155px;
 }
 
 

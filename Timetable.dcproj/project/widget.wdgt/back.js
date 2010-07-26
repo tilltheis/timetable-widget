@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 
-// data = { table:[][], days:[], times:[] };
+// data = { table:[days][lessons], days:[], times:[] };
 function changeTimetableForWeek(week, data) {
     var type = week%2 === 0 ? 'even' : 'odd';
     
