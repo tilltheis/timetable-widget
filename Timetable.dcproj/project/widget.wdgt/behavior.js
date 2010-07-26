@@ -144,15 +144,11 @@ function setupBehavior() {
     }, false);
     
     
-    
-editTimetable(1);
-
+    // edit pane
     $('editOdd').addEventListener('click', function() {
-        //setValueForIndicator(0, $('oddIndicator'));
         editTimetable(1);
     }, false);
     $('editEven').addEventListener('click', function() {
-        //setValueForIndicator(0, $('evenIndicator'));
         editTimetable(2);
     }, false);
     

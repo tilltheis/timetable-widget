@@ -15,12 +15,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 Element.prototype.addClass = function(cl) {
-    if (!this.hasClass(cl))
+    if (!this.hasClass(cl)) {
         this.className += ' ' + cl;
+    }
+    
+    return this;
 }
 
 Element.prototype.removeClass = function(cl) {
     this.className = this.className.replace(new RegExp('(^| )*'+cl+'( |$)*'), ' ');
+    
+    return this;
 }
 
 Element.prototype.hasClass = function(cl) {
@@ -191,6 +196,7 @@ String.prototype.capitalized = function() {
     return capitalizedString;
 }
 
-String.prototype.escapeHtmlSpecialChars = function() {
+// escapes (most) chars with special meaning in HTML (<, >, &, ")
+String.prototype.escapedForHTML = function() {
     return this.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }

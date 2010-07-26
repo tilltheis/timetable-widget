@@ -94,9 +94,9 @@ function showCurrentDay()
         //htmlTime.innerText    = times[i] ? times[i] : (firstColToPeriod ? " \b" : i+1);
         
         // since v1.1 times are always saved in the preferences
-        htmlTime.innerHTML    = times[i] ? times[i].escapeHtmlSpecialChars() : "";
+        htmlTime.innerHTML    = times[i] ? times[i].escapedForHTML() : "";
         
         
-        htmlSubject.innerHTML = subjects[i].escapeHtmlSpecialChars();
+        htmlSubject.innerHTML = subjects[i].escapedForHTML();
     }
 }

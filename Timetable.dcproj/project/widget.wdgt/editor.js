@@ -12,7 +12,9 @@ function editTimetable(week) {
     table.appendChild(tbody);
     
     
-        
+    // prevent visual side effects
+    _saveWidgetState();
+    
 
     populateEditorTable(table, type);
     container.appendChild(table);
@@ -35,12 +37,68 @@ function editTimetable(week) {
 
 
 
+
+function disableElement(el) {
+    if (typeof el.disabled === 'boolean') {
+        el.disabled = true;
+    } else if (typeof el.setEnabled === 'function') {
+        el.setEnabled(false);
+    } else {el.onclick = function() { alert('haha'); }
+        /*el.oldOnclickHandler = el.onclick;
+        el.onclick = function() { return false; }
+        
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            return false;
+        }, false);*/
+    }
+}
+function enableElement(el) {
+    if (typeof el.disabled === 'boolean') {
+        el.disabled = false;
+    } else if (el.setEnabled === 'function') {
+        el.setEnabled(true);
+    } else {
+        el.onclick = el.oldOnclickHandler;
+    }
+}
+
+
+function _saveWidgetState() {
+    var back = $('back');
+    // prevent widget content from resizing
+    back.style.height = getStyle(back, 'height');
+    
+    // make elements outside the editor pane unusable
+    var els = [];
+    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('input')));
+    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('select')));
+    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('a')));
+    els = els.concat(Array.prototype.slice.call($('oddBox').getElementsByTagName('*')));
+    els = els.concat(Array.prototype.slice.call($('evenBox').getElementsByTagName('*')));
+    els.push(gHelpButton);
+    els.push(gDoneButton);
+    
+    for (var i = 0; i < els.length; ++i) {
+        disableElement(els[i]);
+    }
+}
+function _restoreWidgetState() {
+    window.resizeTo(window.innerWidth, parseInt($('back').style.height, 10));
+    $('back').style.height = '';
+}
+
+
 function adjustWidgetForEditor() {
     // adjust height if the table is inside the DOM tree
     var container = $('editTimetableContainer'); // is null if not inside DOM
     if (container !== null && container.parentNode !== null) {
         var height = getStyle(container, 'height', 'i') + 10;
         if (height > window.innerHeight) {
+            // prevent #back bg-image from growing
+            var backHeight = getStyle($('back'), 'height');
+            
+            
             window.resizeTo(window.innerWidth, height);
         }
     }
@@ -126,6 +184,7 @@ function closeEditor(container) {
     container.style.opacity = 0.0;
     setTimeout(function() {
         container.parentNode.removeChild(container);
+        _restoreWidgetState();
     }, 1000 * getStyle(container, '-webkit-transition-duration', 'f'));
 }
 
