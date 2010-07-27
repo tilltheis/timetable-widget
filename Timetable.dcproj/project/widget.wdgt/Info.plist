@@ -17,7 +17,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CloseBoxInsetX</key>
-	<integer>25</integer>
+	<integer>150</integer>
 	<key>CloseBoxInsetY</key>
 	<integer>25</integer>
 	<key>Height</key>

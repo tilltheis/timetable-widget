@@ -16,37 +16,37 @@ function setupBehavior() {
     
     
     
-    $('day_prev').addEventListener('click', function() {
+    $('day_prev').onclick = function() {
         fadeFontOut(function() {
             toPreviousDay();
             showCurrentDay();
             resizeWidgetToShowFront();
             fadeFontIn();
         });
-    }, false);
+    };
     
-    $('day_next').addEventListener('click', function() {
+    $('day_next').onclick = function() {
         fadeFontOut(function() {
             toNextDay();
             showCurrentDay();
             resizeWidgetToShowFront();
             fadeFontIn();
         });
-    }, false);
+    };
     
-    $('day_cur').addEventListener('click', function() {
+    $('day_cur').onclick = function() {
         fadeFontOut(function() {
             updateDateAndShowDay();
             resizeWidgetToShowFront();
             fadeFontIn();
         });
-    }, false);
+    };
     
     
     
     // BACK
     
-    $('firstRowToDay').addEventListener('change', function() {
+    $('firstRowToDay').onchange = function() {
         var checkbox = this;
         var ignore = $('ignoreFirstRow');
 
@@ -55,17 +55,17 @@ function setupBehavior() {
         ignore.disabled = !checkbox.checked;
         
         gSettingsChanged = true;
-    }, false);
+    };
     
-    $('ignoreFirstRow').addEventListener('change', function() {
+    $('ignoreFirstRow').onchange = function() {
         var checkbox = this;
         
         widget.setPreferenceForKey(checkbox.checked, 'ignoreFirstRow');
 
         gSettingsChanged = true;
-    }, false);
+    };
     
-    $('firstColToPeriod').addEventListener('change', function() {
+    $('firstColToPeriod').onchange = function() {
         var checkbox = this;
         var ignore = document.getElementById('ignoreFirstCol');
         
@@ -74,17 +74,17 @@ function setupBehavior() {
         ignore.disabled = !checkbox.checked;
         
         gSettingsChanged = true;
-    }, false);
+    };
     
-    $('ignoreFirstCol').addEventListener('change', function() {
+    $('ignoreFirstCol').onchange = function() {
         var checkbox = this;
         
         widget.setPreferenceForKey(checkbox.checked, 'ignoreFirstCol');
         
         gSettingsChanged = true;
-    }, false);
+    };
     
-    $('displayNextDayAtHour').addEventListener('change', function() {
+    $('displayNextDayAtHour').onchange = function() {
         var dropdown = this;
         var value = +dropdown.options[dropdown.selectedIndex].value;
         
@@ -93,9 +93,9 @@ function setupBehavior() {
         // jump to the 'new' current day in the hope that the user wants this behavior
         toCurrentDay(value);
         gSettingsChanged = true;
-    }, false);
+    };
     
-    $('useISOWeeks').addEventListener('change', function() {
+    $('useISOWeeks').onchange = function() {
         var checkbox = this;
             
         widget.setPreferenceForKey(checkbox.checked, 'useISOWeeks');
@@ -105,61 +105,62 @@ function setupBehavior() {
 
         
         gSettingsChanged = true;
-    }, false);
+    };
     
     
     // import csv
     el = document.getElementById('evenBox');
-    el.addEventListener('drop', function() {
+    el.ondrop = function() {
         _documentPathDrop('even', event);
-    }, false);
-    el.addEventListener('dragenter', function() {
+    };
+    el.ondragenter = function() {
         event.preventDefault();
         event.stopPropagation();
-    }, false);
-    el.addEventListener('dragover', function() {
+    };
+    el.ondragover = function() {
         event.preventDefault();
         event.stopPropagation();
-    }, false);
+    };
     
     el = document.getElementById('oddBox');
-    el.addEventListener('drop', function() {
+    el.ondrop = function() {
         _documentPathDrop('odd', event);
-    }, false);
-    el.addEventListener('dragenter', function() {
+    };
+    el.ondragenter = function() {
         event.preventDefault();
         event.stopPropagation();
-    }, false);
-    el.addEventListener('dragover', function() {
+    };
+    el.ondragover = function() {
         event.preventDefault();
         event.stopPropagation();
-    }, false);
+    };
     
     
-    $('removeOdd').addEventListener('click', function() {
+    $('removeOdd').onclick = function() {
         changeTimetableForWeek(1, null);
-    }, false);
-    $('removeEven').addEventListener('click', function() {
+    };
+    $('removeEven').onclick = function() {
         changeTimetableForWeek(0, null);
-    }, false);
+    };
     
     
     // edit pane
-    $('editOdd').addEventListener('click', function() {
+    $('editOdd').onclick = function() {
         editTimetable(1);
-    }, false);
-    $('editEven').addEventListener('click', function() {
+    };
+    $('editEven').onclick = function() {
         editTimetable(2);
-    }, false);
+    };
     
     
     
     // make links clickable
     var links = document.links;
     for (var i = 0; i < links.length; ++i) {
-        links[i].addEventListener('click', function() {
+        links[i].onclick = function(e) {
             widget.openURL(this.href); // no closure needed
-        }, false);
+            e.preventDefault(); // dont open the page within the widget
+        };
     }
 
 
@@ -168,9 +169,9 @@ function setupBehavior() {
     els = els.concat(document.getElementsByClassName('expander'));
     els = els.concat(document.getElementsByClassName('collapser'));
     for (var i = 0; i < els.length; ++i) {
-        els[i].addEventListener('click', function() {
+        els[i].onclick = function() {
             foldSection(this);
-        }, false);
+        };
     }
 }
 

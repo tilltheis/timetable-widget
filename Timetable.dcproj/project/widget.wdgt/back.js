@@ -10,6 +10,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 // data = { table:[days][lessons], days:[], times:[] };
+// days[] can be empty (default values will be used)
+// date == null deletes existing table
 function changeTimetableForWeek(week, data) {
     var type = week%2 === 0 ? 'even' : 'odd';
     

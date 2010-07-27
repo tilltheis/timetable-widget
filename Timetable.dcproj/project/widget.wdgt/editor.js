@@ -43,24 +43,36 @@ function disableElement(el) {
         el.disabled = true;
     } else if (typeof el.setEnabled === 'function') {
         el.setEnabled(false);
-    } else {el.onclick = function() { alert('haha'); }
-        /*el.oldOnclickHandler = el.onclick;
-        el.onclick = function() { return false; }
-        
-        el.addEventListener('click', function(e) {
+    } else {
+        el.oldOnclickHandler = el.onclick;
+        el.onclick = function(e) {
             e.preventDefault();
-            return false;
-        }, false);*/
+        }
     }
 }
 function enableElement(el) {
     if (typeof el.disabled === 'boolean') {
         el.disabled = false;
-    } else if (el.setEnabled === 'function') {
+    } else if (typeof el.setEnabled === 'function') {
         el.setEnabled(true);
     } else {
         el.onclick = el.oldOnclickHandler;
+        delete el.oldOnclickHandler;
     }
+}
+
+function _getBackControls() {
+    var els = [];
+    
+    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('input')));
+    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('select')));
+    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('a')));
+    els = els.concat(Array.prototype.slice.call($('oddBox').getElementsByTagName('*')));
+    els = els.concat(Array.prototype.slice.call($('evenBox').getElementsByTagName('*')));
+    els.push(gHelpButton);
+    els.push(gDoneButton);
+    
+    return els;
 }
 
 
@@ -70,15 +82,7 @@ function _saveWidgetState() {
     back.style.height = getStyle(back, 'height');
     
     // make elements outside the editor pane unusable
-    var els = [];
-    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('input')));
-    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('select')));
-    els = els.concat(Array.prototype.slice.call(back.getElementsByTagName('a')));
-    els = els.concat(Array.prototype.slice.call($('oddBox').getElementsByTagName('*')));
-    els = els.concat(Array.prototype.slice.call($('evenBox').getElementsByTagName('*')));
-    els.push(gHelpButton);
-    els.push(gDoneButton);
-    
+    var els = _getBackControls();
     for (var i = 0; i < els.length; ++i) {
         disableElement(els[i]);
     }
@@ -86,6 +90,11 @@ function _saveWidgetState() {
 function _restoreWidgetState() {
     window.resizeTo(window.innerWidth, parseInt($('back').style.height, 10));
     $('back').style.height = '';
+    
+    var els = _getBackControls();
+    for (var i = 0; i < els.length; ++i) {
+        enableElement(els[i]);
+    }
 }
 
 
@@ -301,7 +310,7 @@ function addEditTableRow(tbody) {
 
 
 function makeInputTableFieldInputUsable(el) {
-    el.addEventListener('keydown', function(e) {
+    el.onkeydown = function(e) {
         var cell = this.parentNode;
         var row  = cell.parentNode;
         var cellIndex = cell.cellIndex;
@@ -364,5 +373,5 @@ function makeInputTableFieldInputUsable(el) {
                 e.preventDefault();
             }
         }
-    });
+    };
 }
