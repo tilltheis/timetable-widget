@@ -106,10 +106,10 @@ function showFront(event)
     // updateDateAndShowDay();
 
     
-    if (gSettingsChanged) {
+    //if (gSettingsChanged) {
         showCurrentDay();
-        gSettingsChanged = false;
-    }
+    //    gSettingsChanged = false;
+    //}
 
 
 
@@ -277,7 +277,7 @@ function $(id) {
 
 
 function setPreferenceArrayForKey(arr, key) {
-    if (widget.preferenceForKey(key) === '__Array' || arr === null) {
+    if (arr === null || widget.preferenceForKey(key) === '__Array') {
         unsetPreferenceArrayForKey(key);
         if (arr === null)
             return;

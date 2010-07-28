@@ -96,7 +96,7 @@ a, .external {
 	width: 250px;
 	height: 50px;
     
-	background: url("Images/top.png");
+	background: url("img/top.png");
     z-index: 1;
     
     text-align:center;
@@ -145,7 +145,7 @@ a, .external {
     
     padding-top: 6px;
 
-   	background: url("Images/middle.png");
+   	background: url("img/middle.png");
 
     display: block;
     
@@ -197,7 +197,7 @@ a, .external {
 	width: 250px;
     height: 50px;
         
-	background: url("Images/bottom.png");
+	background: url("img/bottom.png");
     z-index: 1;
     
     line-height: 30px;
@@ -214,7 +214,7 @@ a, .external {
 /* BACK GENERAL SETTINGS */
 /*************************/
 
-#back, #editTimetableContainer {
+#back, #editTimetableContainer, #editor {
     font-family: "Helvetiva Neue", Helvetiva;
     font-weight: bold;
     font-size: 13px;
@@ -223,7 +223,7 @@ a, .external {
 
 #back {
     display: none;
-    background: url("Images/back.png") no-repeat;
+    background: url("img/back.png") no-repeat;
     -webkit-background-size: 100%;
 }
 
@@ -270,7 +270,7 @@ a, .external {
 /* TABLE EDIT PANE GENERAL SETTINGS */
 /************************************/
 
-#editTimetableContainer {
+#editTimetableContainer, #editor {
     background: black;
     opacity: 0.8;
 
@@ -288,36 +288,36 @@ a, .external {
     border-radius: 5px;
 }
 
-#editTimetableContainer thead input {
+#editTimetableContainer thead input, #editorTable thead input {
     font-weight: bold;
 }
 
-#editTimetableContainer td:first-child {
+#editTimetableContainer td:first-child, #editorTable td:first-child {
     width: 3em;
 }
 
-#editTimetableContainer td {
+#editTimetableContainer td, #editor td {
     padding-right: 10px;
 }
 
-#editTimetableContainer td:last-child {
+#editTimetableContainer td:last-child, #editorTable td:last-child {
     padding-right: 5px;
 }
 
-#editTimetableContainer input {
+#editTimetableContainer input, #editor input {
     width: 100%;
 }
 
-#editTimetableContainer table {
+#editTimetableContainer table, #editorTable {
     width: 100%;
     margin-bottom: 5px;
 }
 
-.editAction {
+.editAction, #editorSaveButton, #editorCancelButton {
     float: right;
     margin-left: 5px;
 }
-.editCommand {
+.editCommand, #editorAddRowButton, #editorRemoveRowButton {
     float: left;
     margin-right: 5px;
 }
