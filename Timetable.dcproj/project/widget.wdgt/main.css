@@ -42,6 +42,9 @@ a, .external {
     right: 125px;
     bottom: 0;
 }
+#back {
+    top: 16px;
+}
 
 
 
@@ -96,7 +99,7 @@ a, .external {
 	width: 250px;
 	height: 50px;
     
-	background: url("img/top.png");
+	background: url("Images/top.png");
     z-index: 1;
     
     text-align:center;
@@ -145,7 +148,7 @@ a, .external {
     
     padding-top: 6px;
 
-   	background: url("img/middle.png");
+   	background: url("Images/middle.png");
 
     display: block;
     
@@ -197,7 +200,7 @@ a, .external {
 	width: 250px;
     height: 50px;
         
-	background: url("img/bottom.png");
+	background: url("Images/bottom.png");
     z-index: 1;
     
     line-height: 30px;
@@ -223,7 +226,7 @@ a, .external {
 
 #back {
     display: none;
-    background: url("img/back.png") no-repeat;
+    background: url("Images/back.png") no-repeat;
     -webkit-background-size: 100%;
 }
 
@@ -384,6 +387,7 @@ a, .external {
 #boxContainer {
     height: 92px;
     margin-bottom: 10px;
+    margin-top: 0;
 }
 
 #oddBox {
