@@ -16,7 +16,6 @@ Timetable Manager
 Interface:
 
 Properties:
-    
 
 Methods:
     TimetableManager(weekType)  : TimetableManager  (throws)
@@ -98,7 +97,7 @@ function TimetableManager(weekType) {
     // private
     
     // $path must point to a valid(!) csv file
-    function csvFileToString(path) {
+    var csvFileToString = function(path) {
         if (path.substr(0, 2) === '~/') {
             path = path.substr(2);
         }
@@ -121,7 +120,7 @@ function TimetableManager(weekType) {
 
 
 
-    function csvStringToObject(csvString) {
+    var csvStringToObject = function(csvString) {
 
         var table = [];
         

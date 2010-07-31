@@ -44,7 +44,6 @@ function Editor() {
     this.onAddRow    = null;
     this.onRemoveRow = null;
     this.onOpen      = null;
-    this.onClose     = null;
     
     this.container;
     
@@ -56,7 +55,7 @@ function Editor() {
             throw 'Editor::open: Invalid weekType argument';
         }
         
-        self.weekType = weekType;
+        this.weekType = weekType;
     
         setupMarkup();
         setupConnections();
@@ -64,22 +63,22 @@ function Editor() {
         
         document.body.appendChild(self.container);
         
-        if (typeof self.onOpen === 'function') {
-            self.onOpen.call(self);
+        if (typeof this.onOpen === 'function') {
+            this.onOpen.call(this);
         }
     };
     
     this.close = function() {
-        self.container.parentNode.removeChild(self.container);
-        self.container = undefined;
+        this.container.parentNode.removeChild(self.container);
+        this.container = undefined;
         
-        if (typeof self.onClose === 'function') {
-            self.onClose.call(self);
+        if (typeof this.onClose === 'function') {
+            this.onClose.call(this);
         }
     };
     
     this.collectData = function() {
-        if (!self.container) {
+        if (!this.container) {
             throw 'Editor::collectData: Editor is closed';
         }
         

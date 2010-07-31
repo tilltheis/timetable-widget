@@ -1,9 +1,12 @@
 (ok) add edit functionality
 (ok) prevent real widget from growing when adding rows to table
-adjust remove icon (on pressing ALT)
+(impossible (max 100 px)) adjust remove icon (on pressing ALT)
 (ok) test auto generated times column
 (ok) disable controls on the back while the edit pane is active
 (ok) adjust background image (while loading)
 (ok) hide remove button when no data is available for the week
 (ok) escape htmlspecialchars when displayed
 (ok) minor display tweaks
+(ok) add/fix box-shadow (50% opacity 90 degree angle from horizontal 4 pixel offset (distance from source) 10 pixel size, using Gaussian blur)
+(ok) any display errors due to box-shadow offset (1px <- change to test)
+add box border which indicates drop behavior

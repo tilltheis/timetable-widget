@@ -168,8 +168,12 @@ function setupBehavior() {
     var editor = new Editor();
     
     editor.onCancel = function() {
-        this.container.style.opacity = 0.0;
-        setTimeout(this.close, 1000 * getStyle(this.container, '-webkit-transition-duration', 'f'));
+        var editor = this;
+        editor.container.style.opacity = 0.0;
+        
+        setTimeout(function() {
+            editor.close();
+        }, 1000 * getStyle(editor.container, '-webkit-transition-duration', 'f'));
     };
     
     editor.onSave = function() {
@@ -194,14 +198,12 @@ function setupBehavior() {
         editor.onAddRow(); // resize widget for loaded table
     };
     
-    editor.onClose = function() {
-        unfreezeBack();
-    };
+    editor.onClose = unfreezeBack;
     
     editor.onAddRow = function() {
         // adjust height if the table is inside the DOM tree
         if (this.container.parentNode !== null) {
-            var height = getStyle(this.container, 'height', 'i') + 10;
+            var height = getStyle(this.container, 'height', 'i') + 20;
             if (height > window.innerHeight) {
                 window.resizeTo(window.innerWidth, height);
             }
@@ -253,7 +255,7 @@ function freezeBack() {
     
     // prevent widget content from resizing
     back.style.height = getStyle(back, 'height');
-    
+    alert(getHeightOfBack());
     back.addEventListener('click', freezedContainerEventCapturingHandler, true); // links, handlers
     back.addEventListener('mousedown', freezedContainerEventCapturingHandler, true); // selects, apple buttons
     back.addEventListener('change', freezedContainerEventCapturingHandler, true); // checkboxes

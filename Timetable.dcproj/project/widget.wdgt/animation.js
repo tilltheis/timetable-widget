@@ -13,7 +13,7 @@ var gResizeWidgetHeightAnimator;
 var gResizeWidgetHeightAnimation;
 
 
-function setupAnimation() {
+var setupAnimation = function() {
     gResizeWidgetHeightAnimator  = new AppleAnimator(400, 13);
     gResizeWidgetHeightAnimation = new AppleAnimation(0, 0, function(a, c, s, f) {
         window.resizeTo(window.innerWidth, c);
@@ -24,7 +24,13 @@ function setupAnimation() {
 
 
 
-function resizeWidgetHeight(newHeight, onComplete) {
+
+
+/********************/
+/*     RESIZING     */
+/********************/
+
+var resizeWidgetHeight = function(newHeight, onComplete) {
     gResizeWidgetHeightAnimator.stop();
 
     gResizeWidgetHeightAnimation.from      = window.innerHeight;
@@ -34,84 +40,109 @@ function resizeWidgetHeight(newHeight, onComplete) {
     gResizeWidgetHeightAnimator.start();
 }
 
-function resizeWidgetToShowBack(onComplete) {
+
+var resizeWidgetToShowBack = function(onComplete) {
     resizeWidgetHeight(getHeightOfBack(), onComplete);
 }
 
+var resizeWidgetToShowFront = function(onComplete) {
+    resizeWidgetHeight(getHeightOfFront(), onComplete);
+}
 
 
-function resizeWidgetToShowFront(onComplete) {
-    var htmlTitle = document.getElementById('title');
-    var htmlTable = document.getElementById('timetable');
-    var htmlStatus = document.getElementById('status');
-    
-    var titleHeight = parseInt(document.defaultView.getComputedStyle(htmlTitle, null).getPropertyValue('height'), 10);
-    var statusHeight = parseInt(document.defaultView.getComputedStyle(htmlStatus, null).getPropertyValue('height'), 10);
-    
+var getHeightOfBack = function() {
+    var back = $('back');
+    var prefs = $('preferencesContainer');
+
+    var oldDisplayStyle = getStyle(back, 'display');
+
+    if (oldDisplayStyle === 'none') {
+        back.style.display = 'block'; // required to calculate height
+    }
+
+    var top = getStyle(back, 'top', 'i');
+    var paddingTop = getStyle(prefs, 'padding-top', 'i');
+    var paddingBottom = getStyle(prefs, 'padding-bottom', 'i');
+    var height = getStyle(prefs, 'height', 'i');
+
+    height += paddingTop + paddingBottom + top;
+
+    if (oldDisplayStyle === 'none') {
+        back.style.display = 'none'; // restore previous state
+    }
+
+    return height;
+}
+
+var getHeightOfFront = function() {
+    var titleHeight = getStyle($('title'), 'height', 'i');
+    var statusHeight = getStyle($('status'), 'height', 'i');
+
     var rowHeight = 0;
+    var htmlTable = $('timetable');
     if (htmlTable.rows.length > 0) {
-        rowHeight = parseInt(document.defaultView.getComputedStyle(htmlTable.rows[0], null).getPropertyValue('height'), 10);
+        rowHeight = getStyle(htmlTable.rows[0], 'height', 'i');
     }
 
-    var tableHeight = htmlTable.rows.length * rowHeight;
-
-
-    gResizeWidgetHeightAnimator.stop();
-
-    gResizeWidgetHeightAnimation.from = window.innerHeight;
-    gResizeWidgetHeightAnimation.to = titleHeight + tableHeight + statusHeight;
+    var tableHeight = htmlTable.rows.length * rowHeight + 10;
     
-    gResizeWidgetHeightAnimator.oncomplete = onComplete;
 
-    gResizeWidgetHeightAnimator.start();
+    return titleHeight + tableHeight + statusHeight;
 }
 
 
 
-function fadeFontIn(oncomplete) {
-    fadeFontWithParams({from:0.0, to:1.0, oncomplete:oncomplete});
+
+
+/********************/
+/*      FADING      */
+/********************/
+
+
+var fadeFontIn = function(oncomplete) {
+    fadeFontWithParams('in', oncomplete);
 }
 
-function fadeFontOut(oncomplete) {
-    fadeFontWithParams({from:1.0, to:0.0, oncomplete:oncomplete});
+var fadeFontOut = function(oncomplete) {
+    fadeFontWithParams('out', oncomplete);
 }
 
-function fadeFontWithParams(params) {
-    var oldClass, newClass;
-
-    if (params.from < params.to) {
-        oldClass = 'outdated';
-        newClass = 'updated';
-    } else {
-        oldClass = 'updated';
-        newClass = 'outdated';
+var fadeFontWithParams = function(inout, oncomplete) {
+    if (inout !== 'in' && inout !== 'out') {
+        throw 'fadeFontWithParams: Invalid inout argument';
     }
+    
+    var newClass = inout === 'in' ? 'fadeFontIn' : 'fadeFontOut';
+    var oldClass = inout === 'in' ? 'fadeFontOut' : 'fadeFontIn';
+    
+    var title = $('day_cur');
+    var table = $('timetable');
 
-    $('day_cur').removeClass(oldClass);
-    $('day_cur').addClass(newClass);
-    $('timetable').removeClass(oldClass);
-    $('timetable').addClass(newClass);
-        
-    setTimeout(params.oncomplete,
-        getStyle($('day_cur'), '-webkit-transition-duration', 'f') * 1000);
+    title.removeClass(oldClass).addClass(newClass);
+    table.removeClass(oldClass).addClass(newClass);
+    
+    if (typeof oncomplete === 'function') {
+        title.addEventListener('webkitTransitionEnd', function callback() {
+            title.removeEventListener('webkitTransitionEnd', callback, false);
+            oncomplete();
+        }, false);
+    }
 }
 
 
 
 var foldSectionAnimator = new AppleAnimator(300, 0, 0, 0, function(a, c, s, f) {
-    $('importOptions').style.height = c + 'px !important';
+    $('importOptions').style.height = c + 'px !important'; // render immediately
 
     // (s)tart and (f)inish are booleans, indicating whether it's the first are last run.
     // access $this (AppleAnimation) to read start and end values
     window.resizeTo(window.innerWidth, foldSectionOldWidgetHeight - this.from + c);
-    
-    if (f) gFoldSectionAnimationRunning = false;
 });
 
 var foldSectionOldWidgetHeight = 0;
 var gFoldSectionAnimationRunning = false;
 
-function foldSection(master) {
+var foldSection = function(master) {
     // avoid animation bugs
     if (gFoldSectionAnimationRunning) {
         return;
@@ -170,7 +201,8 @@ function foldSection(master) {
         
             slave.removeClass(oldSlaveClass);
             slave.addClass(newSlaveClass);
-                
+            
+            gFoldSectionAnimationRunning = false;
         };
         
     }
@@ -189,13 +221,14 @@ function foldSection(master) {
         
         foldSectionAnimator.oncomplete = function () {
             slave.style.height = '';
+            
+            gFoldSectionAnimationRunning = false;
         };
 
     }
     
     
     foldSectionAnimator.stop();
-    //foldSectionAnimator.oncomplete = function() { gFoldSectionAnimationRunning = false;alert('complete'); };
     foldSectionAnimator.start();
 }
 
@@ -203,29 +236,6 @@ function foldSection(master) {
 
 
 
-function getHeightOfBack() {
-    var back = $('back');
-    var prefs = $('preferencesContainer');
-
-    var oldDisplayStyle = getStyle(back, 'display');
-
-    if (oldDisplayStyle === 'none') {
-        back.style.display = 'block'; // required to calculate height
-    }
-
-    var top = getStyle(back, 'top', 'i');
-    var paddingTop = getStyle(prefs, 'padding-top', 'i');
-    var paddingBottom = getStyle(prefs, 'padding-bottom', 'i');
-    var height = getStyle(prefs, 'height', 'i');
-
-    height += paddingTop + paddingBottom + top;
-
-    if (oldDisplayStyle === 'none') {
-        back.style.display = 'none'; // restore previous state
-    }
-
-    return height;
-}
 
 
 
@@ -234,7 +244,7 @@ function getHeightOfBack() {
 
 var indicatorTimers = {};
 
-function setValueForIndicator(value, indicator) {
+var setValueForIndicator = function(value, indicator) {
     var classes = ['no', 'yes'];
 
     indicator.removeClass('yes').removeClass('no');
@@ -252,7 +262,7 @@ function setValueForIndicator(value, indicator) {
 }
 
 
-function getStyle(el, prop, type) {
+var getStyle = function(el, prop, type) {
     var style = document.defaultView.getComputedStyle(el, null).getPropertyValue(prop);
     
          if (type === 'i') style = parseInt(style)
@@ -262,6 +272,6 @@ function getStyle(el, prop, type) {
 }
 
 
-function $(id) {
+var $ = function(id) {
     return document.getElementById(id);
 }
