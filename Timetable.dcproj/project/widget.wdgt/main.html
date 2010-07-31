@@ -7,15 +7,15 @@
     <script type="text/javascript" src="file:///System/Library/WidgetResources/AppleClasses/AppleInfoButton.js" charset="utf-8"></script>
     <link rel="stylesheet" href="main.css" charset="utf-8">
     <script type="text/javascript" src="localizedStrings.js" charset="utf-8"></script>
-    <script type="text/javascript" src="prototypes.js" charset="utf-8"></script>
-    <script type="text/javascript" src="animation.js" charset="utf-8"></script>
-    <script type="text/javascript" src="manager.js" charset="utf-8"></script>
-    <script type="text/javascript" src="front.js" charset="utf-8"></script>
-    <script type="text/javascript" src="csvParser.js" charset="utf-8"></script>
-    <script type="text/javascript" src="date.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/prototypes.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/csvParser.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/manager.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/calendar.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/editor.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/animation.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/front.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/behavior.js" charset="utf-8"></script>
     <script type="text/javascript" src="main.js" charset="utf-8"></script>
-    <script type="text/javascript" src="editor.js" charset="utf-8"></script>
-    <script type="text/javascript" src="behavior.js" charset="utf-8"></script>
 </head>
 <body>
     <div id="front">
@@ -27,7 +27,7 @@
         
         <table id="timetable"></table>
 
-        <div id="status">Loading ...</div>
+        <div id="status"><div id="currentDate">2010-07-31</div><div id="weekType">Loading ...</div></div>
         
         <div id="info"></div>
     </div>

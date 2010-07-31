@@ -24,7 +24,6 @@
 * {
     margin: 0;
     padding: 0;
-    -webkit-transition: opacity .1s linear;
 }
 
 
@@ -101,10 +100,10 @@ a, .external {
 }
 
 #day_cur {
-    padding-top: 4px;
 	text-align: center;
 	font-size: 20px;
-    font-weight: bold;
+    padding-top: 4px;
+    font-weight: bold
     
     display: inline-block;
 }
@@ -197,6 +196,8 @@ a, .external {
     
     width: 202px;
     height: 26px;
+    min-height: 26px;
+    max-height: 26px;
         
 	background: url("Images/bottom.png");
     z-index: 1;
@@ -205,6 +206,26 @@ a, .external {
 	text-align: center;
     font-weight: lighter;
 	font-size: 12px;
+}
+
+#status * {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-transition-duration: 0.5s;
+}
+
+#currentDate {
+    opacity: 0;
+}
+
+#status:hover #currentDate {
+    opacity: 1;
+}
+#status:hover #weekType {
+    opacity: 0;
 }
 
 

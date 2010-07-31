@@ -10,3 +10,6 @@
 (ok) add/fix box-shadow (50% opacity 90 degree angle from horizontal 4 pixel offset (distance from source) 10 pixel size, using Gaussian blur)
 (ok) any display errors due to box-shadow offset (1px <- change to test)
 add box border which indicates drop behavior
+(ok) display date on #title:hover
+test calendar autochange
+(ok) stop & restart timers when widget is hidden

@@ -9,18 +9,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 
-var gInfoButton;
-var gDoneButton;
-var gHelpButton;
-
-var gSettingsChanged;
 var gWeekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-
-var gHasOdd = false;
-var gHasEven = false;
-
-
-
+var gCalendar;
 
 
 //
@@ -29,25 +19,29 @@ var gHasEven = false;
 //
 function load()
 {
-    gInfoButton = new AppleInfoButton(document.getElementById("info"), document.getElementById("front"), "black", "black", showBack);
-    gDoneButton = new AppleGlassButton(document.getElementById("done"), getLocalizedString("Done"), showFront);
-    gHelpButton = new AppleGlassButton(document.getElementById("help"), "?", function(){widget.openURL(getLocalizedString("http://www.tilltheis.de/projects/timetable-widget"))});
+    new AppleInfoButton(document.getElementById("info"), document.getElementById("front"), "black", "black", showBack);
+    new AppleGlassButton(document.getElementById("done"), getLocalizedString("Done"), showFront);
+    new AppleGlassButton(document.getElementById("help"), "?", function() {
+        widget.openURL(getLocalizedString("http://www.tilltheis.de/projects/timetable-widget"))
+    });
         
-    var getWeekFuncs = [ Date.prototype.getUSWeek, Date.prototype.getISOWeek ];
-    Date.prototype.getWeek = getWeekFuncs[+!!widget.preferenceForKey('useISOWeeks')];
-
-
     localizeWidget();
     loadWidgetState();
-    setupBehavior();
     
     // required to animate resizing of sides
     setupAnimation();
-
-    updateDateAndShowDay();
-    resizeWidgetToShowFront();
     
-    //return;
+
+    var hourForChange = parseInt(widget.preferenceForKey('displayNextDayAtHour'), 10);
+    var useISOWeeks   = !!widget.preferenceForKey('useISOWeeks');
+    
+    gCalendar = new Calendar(hourForChange, useISOWeeks);
+    
+    setupBehavior();
+    
+    gCalendar.onDateChange.call(gCalendar);
+    
+    return;
     $('front').style.display='none';
     $('back').style.display='block';
     resizeWidgetToShowBack();
@@ -55,30 +49,24 @@ function load()
 
 function remove()
 {
-    clearInterval(gTimerForNextDay);
+    gCalendar.setAutoDateUpdate(false);
 }
 
 function hide()
 {
-    clearInterval(gTimerForNextDay);
+    gCalendar.setAutoDateUpdate(false);
 }
 
 function show()
 {
-    updateDateAndShowDay();
-    
-    if (getStyle($('front'), 'display') !== 'none') {
-        resizeWidgetToShowFront();
-    }
+    gCalendar.setAutoDateUpdate(true);
+    gCalendar.resetCurrentDate();
 }
 
 function sync()
 {
-    updateDateAndShowDay();
-    
-    if (getStyle($('front'), 'display') !== 'none') {
-        resizeWidgetToShowFront();
-    }
+    gCalendar.setAutoDateUpdate(true);
+    gCalendar.resetCurrentDate();
 }
 
 
@@ -95,7 +83,9 @@ function showBack(event) {
         front.style.display = "none";
         back.style.display = "block";
     
-        setTimeout('widget.performTransition();', 0);
+        setTimeout(function() {
+            widget.performTransition();
+        }, 0);
     });
 }
 
@@ -103,17 +93,6 @@ function showBack(event) {
 
 function showFront(event)
 {
-    // not always required. therefor it's called by someone else
-    // updateDateAndShowDay();
-
-    
-    //if (gSettingsChanged) {
-        showCurrentDay();
-    //    gSettingsChanged = false;
-    //}
-
-
-
     var front = document.getElementById("front");
     var back = document.getElementById("back");
 
@@ -122,8 +101,14 @@ function showFront(event)
     back.style.display="none";
     front.style.display="block";
 
-    setTimeout('widget.performTransition();', 0);
-    setTimeout(resizeWidgetToShowFront, 750);
+    setTimeout(function() {
+        widget.performTransition();
+    }, 0);
+
+    setTimeout(function() {
+        showDay(gCalendar);
+        resizeWidgetToShowFront();
+    }, 750);
 }
 
 if (window.widget) {
@@ -261,20 +246,11 @@ function onFirstLaunch() {
 
 
 
+
+
 ///////////////////
 ///// HELPERS /////
 ///////////////////
-
-
-
-
-
-function $(id) {
-    return document.getElementById(id);
-}
-
-
-
 
 
 function setPreferenceArrayForKey(arr, key) {
