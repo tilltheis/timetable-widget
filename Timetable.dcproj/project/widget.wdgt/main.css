@@ -244,6 +244,10 @@ a, .external {
 }
 
 
+#help, #done {
+    margin-bottom: 2px;
+}
+
 #help {
     float: left;
 }
@@ -423,8 +427,8 @@ a, .external {
     opacity: 0.5;
 }
 
-.edit:hover, .remove:hover {
-    opacity: 1.0 !important; /* in conflict with .box:hover .edit/.remove ?! */
+.box .edit:hover, .box .remove:hover {
+    opacity: 1.0;
 }
 
 .edit {
@@ -504,7 +508,7 @@ a, .external {
     font-size: 100px;
     color: #666;
     
-    -webkit-animation-duration: .2s; /* 0 */
+    -webkit-animation-duration: .2s;
     
     position: relative;
 }

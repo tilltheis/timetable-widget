@@ -30,8 +30,7 @@ function TimetableManager(weekType) {
     }
     
     
-    // privileged
-    
+// public
 
     // data = { table:[days][lessons], days:[], times:[] };
     this.importFromObject = function(data) {        
@@ -94,7 +93,7 @@ function TimetableManager(weekType) {
     };
     
     
-    // private
+// private
     
     // $path must point to a valid(!) csv file
     var csvFileToString = function(path) {

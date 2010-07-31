@@ -20,17 +20,17 @@ Element.prototype.addClass = function(cl) {
     }
     
     return this;
-}
+};
 
 Element.prototype.removeClass = function(cl) {
     this.className = this.className.replace(new RegExp('(^| )*'+cl+'( |$)*'), ' ');
     
     return this;
-}
+};
 
 Element.prototype.hasClass = function(cl) {
     return (new RegExp('(^| )'+cl+'( |$)')).test(this.className);
-}
+};
 
 Element.prototype.getElementsByClassName = function(cl) {
     var input = this.getElementsByTagName('*');
@@ -56,7 +56,7 @@ Element.prototype.getElementsByClassName = function(cl) {
     }
             
     return output;*/
-}
+};
 
 
 Element.prototype.getOffset = function() {
@@ -77,7 +77,7 @@ Element.prototype.getOffset = function() {
     offset.y += parentOffset.y;
     
     return offset;
-}
+};
 
 
 
@@ -99,7 +99,7 @@ document.getElementsByClassName = function(cl) {
             output[output.length] = input[i];
             
     return output;*/
-}
+};
 
 
 
@@ -113,7 +113,11 @@ document.getElementsByClassName = function(cl) {
 Date.prototype.getUSWeek = function() {
     var onejan = new Date(this.getFullYear(),0,1);
     return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
-}
+};
+
+Date.prototype.getUSWeeks = function() {
+    return 52;
+};
 
 
 Date.prototype.getISOWeeks = function() {
@@ -126,7 +130,7 @@ Date.prototype.getISOWeeks = function() {
     }
 
     return 52;
-}
+};
 
 Date.prototype.getISOWeek = function() {
     var jan4ISODay = (new Date(this.getFullYear(), 0, 4)).getDay();
@@ -149,7 +153,7 @@ Date.prototype.getISOWeek = function() {
     }
 
     return week;
-}
+};
 
 
 
@@ -194,9 +198,9 @@ String.prototype.capitalized = function() {
     }
     
     return capitalizedString;
-}
+};
 
 // escapes (most) chars with special meaning in HTML (<, >, &, ")
 String.prototype.escapedForHTML = function() {
     return this.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
+};

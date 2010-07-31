@@ -131,6 +131,12 @@ var fadeFontWithParams = function(inout, oncomplete) {
 
 
 
+
+
+/********************/
+/*     FOLDING      */
+/********************/
+
 var foldSectionAnimator = new AppleAnimator(300, 0, 0, 0, function(a, c, s, f) {
     $('importOptions').style.height = c + 'px !important'; // render immediately
 
@@ -236,31 +242,43 @@ var foldSection = function(master) {
 
 
 
-
-
-
-
-
-
-var indicatorTimers = {};
+/********************/
+/*    INDICATORS     */
+/********************/
 
 var setValueForIndicator = function(value, indicator) {
-    var classes = ['no', 'yes'];
+    var className = value ? 'yes' : 'no';
 
     indicator.removeClass('yes').removeClass('no');
 
-    // no change is made if triggered without timeout
+    // no change is made if triggered without timeout (style changes are coerced)
     setTimeout(function() {
-        indicator.addClass(classes[+value]).addClass('updated');
-
-        // add/remove class to avoid animation each time the widget's back is shown
-        clearTimeout(indicatorTimers[indicator.id]);
-        indicatorTimers[indicator.id] = setTimeout(function() {
+        indicator.addClass(className).addClass('updated');
+        
+        // remove button will only be shown after .indicator:hover or after switching widget sides again
+        // i don't know why but this fixes the bug 
+        if (value) {
+            var remove = indicator.parentNode.getElementsByClassName('remove')[0];
+            remove.style.display = 'inline';
+            setTimeout(function() {
+                remove.style.display = '';
+            }, 0);
+        }
+        
+        indicator.addEventListener('webkitAnimationEnd', function callback() {
+            indicator.removeEventListener('webkitAnimationEnd', callback, false);
             indicator.removeClass('updated');
-        }, getStyle(indicator, '-webkit-animation-duration', 'f') * 1000);
+        }, false);
     }, 0);
 }
 
+
+
+
+
+/********************/
+/*     HELPERS      */
+/********************/
 
 var getStyle = function(el, prop, type) {
     var style = document.defaultView.getComputedStyle(el, null).getPropertyValue(prop);

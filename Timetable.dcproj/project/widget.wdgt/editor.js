@@ -37,7 +37,7 @@ Methods:
 
 */
 function Editor() {
-    // privileged
+// public
     
     this.onSave      = null;
     this.onCancel    = null;
@@ -106,7 +106,7 @@ function Editor() {
     };
     
     
-    // private
+// private
     
     var self = this;
     
@@ -172,6 +172,31 @@ function Editor() {
         for (var i = 0; i < cells.length; ++i) {
             improveUsabilityOfInput(cells[i].firstChild);
         }
+        
+        
+        // prevent doubleclick from emulating two mousedown events on save and cancel buttons
+        self.container.addEventListener('mousedown', function outerListener(e) {
+            var buttonID = e.target.parentNode.parentNode.id;
+            if (buttonID !== 'editorCancelButton' && buttonID !== 'editorSaveButton') {
+                return;
+            }
+            
+            var innerListener = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            self.container.addEventListener('mousedown', innerListener, true);
+            
+            var container = self.container;
+            
+            setTimeout(function() {
+                container.removeEventListener('mousedown', innerListener, true);
+                container.addEventListener('mousedown', outerListener, true);
+            }, 1000); // 1 second is ok because pane is either closed or additional user action is required
+            
+            self.container.removeEventListener('mousedown', outerListener, true);
+        }, true);
+        
     
         addRowButton.onclick = addRow;
         

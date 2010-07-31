@@ -47,20 +47,10 @@ function load()
     updateDateAndShowDay();
     resizeWidgetToShowFront();
     
-    return;
+    //return;
     $('front').style.display='none';
     $('back').style.display='block';
     resizeWidgetToShowBack();
-    
-    document.body.addEventListener('webkitAnimationStart', function(e) {
-        alert('start');
-    }, true);
-    document.body.addEventListener('webkitAnimationEnd', function(e) {
-        alert('end');
-    }, true);
-    document.body.addEventListener('webkitAnimationIteration', function(e) {
-        alert('iteration');
-    }, true);
 }
 
 function remove()

@@ -14,7 +14,9 @@ function setupBehavior() {
     
     // FRONT
     
-    
+    var hourForChange = parseInt(widget.preferenceForKey('displayNextDayAtHour'), 10);
+    var useISOWeeks   = !!widget.preferenceForKey('useISOWeeks');
+    var calendar = new Calendar(hourForChange, useISOWeeks);
     
     $('day_prev').addEventListener('click', function() {
         fadeFontOut(function() {
@@ -245,7 +247,7 @@ function setupBehavior() {
 
 
 
-function freezedContainerEventCapturingHandler(e) {
+function frozenContainerEventCapturingHandler(e) {
     e.preventDefault();
     e.stopPropagation();
 }
@@ -255,10 +257,10 @@ function freezeBack() {
     
     // prevent widget content from resizing
     back.style.height = getStyle(back, 'height');
-    alert(getHeightOfBack());
-    back.addEventListener('click', freezedContainerEventCapturingHandler, true); // links, handlers
-    back.addEventListener('mousedown', freezedContainerEventCapturingHandler, true); // selects, apple buttons
-    back.addEventListener('change', freezedContainerEventCapturingHandler, true); // checkboxes
+
+    back.addEventListener('click', frozenContainerEventCapturingHandler, true); // links, handlers
+    back.addEventListener('mousedown', frozenContainerEventCapturingHandler, true); // selects, apple buttons
+    back.addEventListener('change', frozenContainerEventCapturingHandler, true); // checkboxes
 }
 
 function unfreezeBack() {
@@ -269,9 +271,9 @@ function unfreezeBack() {
     window.resizeTo(window.innerWidth, height);
     back.style.height = '';
     
-    back.removeEventListener('click', freezedContainerEventCapturingHandler, true);
-    back.removeEventListener('mousedown', freezedContainerEventCapturingHandler, true);
-    back.removeEventListener('change', freezedContainerEventCapturingHandler, true);
+    back.removeEventListener('click', frozenContainerEventCapturingHandler, true);
+    back.removeEventListener('mousedown', frozenContainerEventCapturingHandler, true);
+    back.removeEventListener('change', frozenContainerEventCapturingHandler, true);
 }
 
 
