@@ -11,5 +11,6 @@
 (ok) any display errors due to box-shadow offset (1px <- change to test)
 add box border which indicates drop behavior
 (ok) display date on #title:hover
-test calendar autochange
+(ok) test calendar autochange
 (ok) stop & restart timers when widget is hidden
+remove #preferencesContainer

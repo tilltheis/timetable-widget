@@ -17,12 +17,10 @@ function showDay(calendar)
     var htmlTitle = $('day_cur');
     var htmlWeekType = $('weekType');
     var htmlCurrentDate = $('currentDate');
-
     
-    var types = ['odd', 'even'];
-    var realType = types.splice(+(date.getWeek()%2 === 0), 1)[0];
-    var pseudoType = types[0];
-
+    var realType   = date.getWeek() % 2 === 0 ? 'even' : 'odd';
+    var pseudoType = realType === 'odd' ? 'even' : 'odd';
+    
     if (widget.preferenceForKey('has' + realType.capitalized())) {
         pseudoType = realType;
     } else if (!widget.preferenceForKey('has' + pseudoType.capitalized())) {
@@ -91,8 +89,8 @@ function showDay(calendar)
         //htmlTime.innerText    = times[i] ? times[i] : (firstColToPeriod ? " \b" : i+1);
         
         // since v1.1 times are always saved in the preferences
+        // the " \b" hack isn't required anymore as well
         htmlTime.innerHTML    = times[i] ? times[i].escapedForHTML() : "";
-        
         
         htmlSubject.innerHTML = subjects[i].escapedForHTML();
     }

@@ -5,7 +5,7 @@
 	<key>AllowSystem</key>
 	<true/>
 	<key>AllowNetworkAccess</key>
-	<true/>
+	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>

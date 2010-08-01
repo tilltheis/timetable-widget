@@ -44,12 +44,13 @@ a, .external {
 #front {
     position: absolute;
     top: 0;
+    bottom: 10px;
     left: 154px;
     right: 154px;
+    
     width: 202px;
 	font-family: Blokletters;
     -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    bottom: 10px;
 }
 
 #info {
@@ -70,10 +71,10 @@ a, .external {
 }
 
 .fadeFontOut {
-    color: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0) !important;
 }
 .fadeFontIn {
-    color: rgba(0, 0, 0, 1);
+    color: rgba(0, 0, 0, 1) !important;
 }
 
 
@@ -159,9 +160,6 @@ a, .external {
 	vertical-align: bottom;
     
     height: 25px;
-    
-    /*-webkit-transition: opacity .4s linear;*/
-    /*opacity: 0; /* .updated will bring the opacity back */
 }
 
 .time {
@@ -208,7 +206,7 @@ a, .external {
 	font-size: 12px;
 }
 
-#status * {
+#currentDate, #weekType {
     position: absolute;
     left: 0;
     right: 0;

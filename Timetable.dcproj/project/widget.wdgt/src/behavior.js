@@ -18,14 +18,20 @@ function setupBehavior() {
     
     (function setupCalendar() {
         
-        gCalendar.onDateChange = function() {
+        gCalendar.onDateChanged = function() {
             var calendar = this;
             
-            fadeFontOut(function() {
+            // 'onWebkitTransitionEnd' (used by fadeIn/Out() won't trigger if element is invisible.
+            // Therefore we have to make sure that it's only called when visible
+            if (getStyle($('front'), 'display') !== 'none') {
+                fadeFontOut(function() { 
+                    showDay(calendar);
+                    resizeWidgetToShowFront();
+                    fadeFontIn();
+                });
+            } else {
                 showDay(calendar);
-                resizeWidgetToShowFront();
-                fadeFontIn();
-            });
+            }
         };
         
         $('day_prev').addEventListener('click', function() {

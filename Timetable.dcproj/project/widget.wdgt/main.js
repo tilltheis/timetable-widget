@@ -36,11 +36,12 @@ function load()
     var useISOWeeks   = !!widget.preferenceForKey('useISOWeeks');
     
     gCalendar = new Calendar(hourForChange, useISOWeeks);
-    
+
     setupBehavior();
     
-    gCalendar.onDateChange.call(gCalendar);
-    
+    showDay(gCalendar);
+    resizeWidgetToShowFront();
+
     return;
     $('front').style.display='none';
     $('back').style.display='block';
@@ -60,13 +61,21 @@ function hide()
 function show()
 {
     gCalendar.setAutoDateUpdate(true);
-    gCalendar.resetCurrentDate();
 }
 
 function sync()
 {
-    gCalendar.setAutoDateUpdate(true);
+    loadWidgetState();
+    
+    var oldDate = gCalendar.currentDate;
     gCalendar.resetCurrentDate();
+    
+    // force redraw when no event was triggered
+    if (!gCalendar.isDifferentDate(oldDate) &&
+        getStyle($('front'), 'display') !== 'none')
+    {
+        gCalendar.onDateChanged.call(gCalendar);
+    }
 }
 
 
