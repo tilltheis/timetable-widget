@@ -246,7 +246,7 @@ var foldSection = function(master) {
 /*    INDICATORS     */
 /********************/
 
-var setValueForIndicator = function(value, indicator) {
+var setValueForIndicator = function(value, indicator, onComplete) {
     var className = value ? 'yes' : 'no';
 
     indicator.removeClass('yes').removeClass('no');
@@ -268,6 +268,10 @@ var setValueForIndicator = function(value, indicator) {
         indicator.addEventListener('webkitAnimationEnd', function callback() {
             indicator.removeEventListener('webkitAnimationEnd', callback, false);
             indicator.removeClass('updated');
+
+            if (typeof onComplete === 'function') {
+                onComplete.call(indicator);
+            }
         }, false);
     }, 0);
 }

@@ -13,7 +13,12 @@ var localizedStrings = {
     'Friday': 'Freitag',
     '%y-%m-%d': '%d.%m.%y',
     'http://www.tilltheis.de/projects/timetable-widget': 'http://www.tilltheis.de/projects/timetable-widget',
-    'Import options': 'Import Einstellungen',
+    'Import Options': 'Import Einstellungen',
     'Odd week': 'Ungerade Woche',
-    'Even week': 'Gerade Woche'
+    'Even week': 'Gerade Woche',
+    'Save': 'Speichern',
+    'Cancel': 'Abbrechen',
+    'Edit Timetable For Even Weeks': 'Stundenplan für gerade Wochen bearbeiten',
+    'Edit Timetable For Odd Weeks': 'Stundenplan für ungerade Wochen bearbeiten',
+    'Time': 'Zeit'
 };

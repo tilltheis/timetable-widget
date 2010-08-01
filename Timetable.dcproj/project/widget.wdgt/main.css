@@ -250,6 +250,8 @@ a, .external {
     display: none;
     background: url("Images/back.png") no-repeat;
     -webkit-background-size: 100%;
+    
+    padding: 38px 12px 34px;
 }
 
 
@@ -274,6 +276,18 @@ a, .external {
 
 #done {
     float: right;
+}
+
+#version {
+    color: gray;
+    position: absolute;
+    top: 5px;
+    bottom: 0;
+    left: 27px;
+    right: 50px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: lighter;
 }
 
 

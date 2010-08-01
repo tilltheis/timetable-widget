@@ -14,7 +14,7 @@ var localizedStrings = {
     'Friday': 'Friday',
     '%y-%m-%d': '%y-%m-%d',
     'http://www.tilltheis.de/projects/timetable-widget': 'http://www.tilltheis.de/projects/timetable-widget',
-    'Import options': 'Import options',
+    'Import Options': 'Import Options',
     'Odd week': 'Odd week',
     'Even week': 'Even week'
 };

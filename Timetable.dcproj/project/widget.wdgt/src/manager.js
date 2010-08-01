@@ -16,6 +16,10 @@ Timetable Manager
 Interface:
 
 Properties:
+    (Read-write)
+    onSuccess   : handler
+    onFailure   : handler
+    onDelete    : handler
 
 Methods:
     TimetableManager(weekType)  : TimetableManager  (throws)
@@ -31,6 +35,11 @@ function TimetableManager(weekType) {
     
     
 // public
+
+    this.onSuccess;
+    this.onFailure;
+    this.onDelete;
+
 
     // data = { table:[days][lessons], days:[], times:[] };
     this.importFromObject = function(data) {        
@@ -56,6 +65,8 @@ function TimetableManager(weekType) {
         
         widget.setPreferenceForKey(true, 'has' + weekType.capitalized());
         
+        triggerOnSuccess();
+        
         return true;
     };
     
@@ -63,12 +74,14 @@ function TimetableManager(weekType) {
         path = normalizePath(path);
     
         if (!isValidCSVFile(path)) {
+            triggerOnFailure();
             return false;
         }
     
         var csvString = csvFileToString(path);
 
         if (csvString === '') {
+            triggerOnFailure();
             return false;
         }
         
@@ -90,10 +103,33 @@ function TimetableManager(weekType) {
             
             widget.setPreferenceForKey(false, hasTypeStr);
         }
+        
+        triggerOnDelete();
     };
     
     
 // private
+
+    var self = this;
+    
+
+    var triggerOnSuccess = function() {
+        if (typeof self.onSuccess === 'function') {
+            self.onSuccess.call(self);
+        }
+    };
+
+    var triggerOnFailure = function() {
+        if (typeof self.onFailure === 'function') {
+            self.onFailure.call(self);
+        }
+    };
+
+    var triggerOnDelete = function() {
+        if (typeof self.onDelete === 'function') {
+            self.onDelete.call(self);
+        }
+    };
     
     // $path must point to a valid(!) csv file
     var csvFileToString = function(path) {
@@ -181,7 +217,7 @@ function TimetableManager(weekType) {
         try {
             // only one file
             if (path.indexOf("\n") === -1) {
-                escapedPath = quoteStringForShell(path);
+                var escapedPath = quoteStringForShell(path);
                 
 
                 // validate filetype

@@ -18,7 +18,7 @@ function setupBehavior() {
     
     (function setupCalendar() {
         
-        gCalendar.onDateChanged = function() {
+        gCalendar.onDateChange = function() {
             var calendar = this;
             
             // 'onWebkitTransitionEnd' (used by fadeIn/Out() won't trigger if element is invisible.
@@ -111,14 +111,52 @@ function setupBehavior() {
     
     
     (function setupTimetableManager() {
+        var evenManager = new TimetableManager('even');
+        var oddManager  = new TimetableManager('odd');
+        
+        var createEventHandler = function(weekType, success) {
+            return function() {
+                var indicator = $(weekType + 'Indicator');
+                setValueForIndicator(success, indicator, function() {
+                    if (!success && !!widget.preferenceForKey('hasEven')) {
+                        indicator.removeClass('no').addClass('yes');
+
+                        indicator.style.webkitTransition = 'opacity .2s linear 0';
+                        indicator.style.opacity = 0;
+                        
+                        // fix display bug
+                        var remove = indicator.parentNode.getElementsByClassName('remove')[0];
+                        remove.style.display = 'inline';
+                        setTimeout(function() {
+                            remove.style.display = '';
+                        }, 0);
+                        
+                        setTimeout(function() {
+                            indicator.style.opacity = 1;
+                            
+                            setTimeout(function() {
+                                indicator.style.webkitTransition = '';
+                                indicator.style.opacity = '';
+                            }, 200);
+                        }, 200);
+                    }
+                });
+            };
+        };
+        
+        evenManager.onSuccess = createEventHandler('even', true);
+        evenManager.onFailure = createEventHandler('even', false);
+        evenManager.onDelete  = createEventHandler('even', false);
+        oddManager.onSuccess  = createEventHandler('odd', true);
+        oddManager.onFailure  = createEventHandler('odd', false);
+        oddManager.onDelete   = createEventHandler('odd', false);
+        
+    
         // import csv
         el = document.getElementById('evenBox');
         el.addEventListener('drop', function(e) {
             var path = e.dataTransfer.getData('text/uri-list');
-            var manager = new TimetableManager('even');
-            var success = manager.importFromCSV(path);
-            
-            setValueForIndicator(success, $('evenIndicator'));
+            evenManager.importFromCSV(path);
             
             e.preventDefault();
             e.stopPropagation();
@@ -135,10 +173,7 @@ function setupBehavior() {
         el = document.getElementById('oddBox');
         el.addEventListener('drop', function(e) {
             var path = e.dataTransfer.getData('text/uri-list');
-            var manager = new TimetableManager('odd');
-            var success = manager.importFromCSV(path);
-            
-            setValueForIndicator(success, $('oddIndicator'));
+            oddManager.importFromCSV(path);
             
             e.preventDefault();
             e.stopPropagation();
@@ -154,16 +189,10 @@ function setupBehavior() {
         
         
         $('removeOdd').addEventListener('click', function() {
-            var manager = new TimetableManager('odd');
-            manager.deleteTimetable();
-            
-            setValueForIndicator(false, $('oddIndicator'));
+            oddManager.deleteTimetable();
         }, false);
         $('removeEven').addEventListener('click', function() {
-            var manager = new TimetableManager('even');
-            manager.deleteTimetable();
-            
-            setValueForIndicator(false, $('evenIndicator'));
+            evenManager.deleteTimetable();
         }, false);
         
     }());
@@ -220,7 +249,7 @@ function setupBehavior() {
         }
         
         $('editOdd').addEventListener('click', function() {
-            var container = editor.open('odd');
+            editor.open('odd');
         }, false);
         $('editEven').addEventListener('click', function() {
             editor.open('even');

@@ -41,8 +41,9 @@ function load()
     
     showDay(gCalendar);
     resizeWidgetToShowFront();
-
-    return;
+    
+    
+    //return;
     $('front').style.display='none';
     $('back').style.display='block';
     resizeWidgetToShowBack();
@@ -71,10 +72,10 @@ function sync()
     gCalendar.resetCurrentDate();
     
     // force redraw when no event was triggered
-    if (!gCalendar.isDifferentDate(oldDate) &&
+    if (gCalendar.isSameDate(oldDate) &&
         getStyle($('front'), 'display') !== 'none')
     {
-        gCalendar.onDateChanged.call(gCalendar);
+        gCalendar.onDateChange.call(gCalendar);
     }
 }
 

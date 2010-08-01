@@ -17,7 +17,7 @@ Interface:
 
 Properties:
     (Read-write)
-    onDateChanged   : handler
+    onDateChange    : handler
     
     (Read-only)
     currentDate     : Date
@@ -31,7 +31,7 @@ Methods:
     setHourForChange(hour)                  : void
     setUseISOWeeks(flag)                    : void
     setAutoDateUpdate(flag)                 : void
-    isDifferentDate(date)                   : bool
+    isSameDate(date)                        : bool
 
 */
 function Calendar(hourForChangeArg, useISOWeeksArg) {
@@ -42,7 +42,7 @@ function Calendar(hourForChangeArg, useISOWeeksArg) {
     
 // public
     
-    this.onDateChanged = null;
+    this.onDateChange = null;
     
     this.currentDate = new Date();
     
@@ -54,8 +54,8 @@ function Calendar(hourForChangeArg, useISOWeeksArg) {
             this.currentDate.setDate(this.currentDate.getDate() + 2); // monday
         }
         
-        if (typeof this.onDateChanged === 'function') {
-            this.onDateChanged.call(this);
+        if (typeof this.onDateChange === 'function') {
+            this.onDateChange.call(this);
         }
     };
 
@@ -66,21 +66,21 @@ function Calendar(hourForChangeArg, useISOWeeksArg) {
             this.currentDate.setDate(this.currentDate.getDate() - 2); // friday
         }
         
-        if (typeof this.onDateChanged === 'function') {
-            this.onDateChanged.call(this);
+        if (typeof this.onDateChange === 'function') {
+            this.onDateChange.call(this);
         }
     };
     
     this.resetCurrentDate = function() {
         var oldDate = this.currentDate;
-    
+
         this.currentDate = new Date();
         adjustDate(this.currentDate);
         
         this.currentDate.getWeek = oldDate.getWeek;
         
-        if (typeof this.onDateChanged === 'function' && this.isDifferentDate(oldDate)) {
-            this.onDateChanged.call(this);
+        if (typeof this.onDateChange === 'function' && !isSameDateUnadjusted(oldDate)) {
+            this.onDateChange.call(this);
         }
     };
     
@@ -105,23 +105,25 @@ function Calendar(hourForChangeArg, useISOWeeksArg) {
     };
 
     this.setAutoDateUpdate = function(flag) {
-        if (flag) {
-            resetDateUpdateTimer();
-        } else {
-            clearTimeout(dateUpdateTimer);
+        if (flag !== autoDateUpdateEnabled) {
+            autoDateUpdateEnabled = flag;
+        
+            if (flag) {
+                resetDateUpdateTimer();
+            } else {
+                clearTimeout(dateUpdateTimer);
+            }
         }
     };
     
-    this.isDifferentDate = function(dateArg) {
-        var date = new Date(dateArg.getFullYear(),
-                            dateArg.getMonth(),
-                            dateArg.getDate(),
-                            dateArg.getHours());
-        adjustDate(date);
+    this.isSameDate = function(date) {
+        var otherDate = new Date(date.getFullYear(),
+                                 date.getMonth(),
+                                 date.getDate(),
+                                 date.getHours());
+        adjustDate(otherDate);
         
-        return date.getFullYear() !== this.currentDate.getFullYear() ||
-               date.getMonth()    !== this.currentDate.getMonth() ||
-               date.getDate()     !== this.currentDate.getDate();
+        return isSameDateUnadjusted(otherDate);
     };
     
     
@@ -131,9 +133,16 @@ function Calendar(hourForChangeArg, useISOWeeksArg) {
     
     var hourForChange;
     var useISOWeeks;
+    var autoDateUpdateEnabled = true;
     
     var dateUpdateTimer;
     
+    
+    var isSameDateUnadjusted = function(date) {
+        return !(date.getFullYear() !== self.currentDate.getFullYear() ||
+                 date.getMonth()    !== self.currentDate.getMonth() ||
+                 date.getDate()     !== self.currentDate.getDate());
+    };
     
     var adjustDate = function(dateObj) {
         var day   = dateObj.getDay();
@@ -156,7 +165,11 @@ function Calendar(hourForChangeArg, useISOWeeksArg) {
         }
     };
     
-    var resetDateUpdateTimer = function() {alert('reset');
+    var resetDateUpdateTimer = function() {
+        if (!autoDateUpdateEnabled) {
+            return;
+        }
+    
         var today = new Date();
         var daysToAdd = today.getHours() < hourForChange ? 0 : 1;
         
@@ -173,7 +186,7 @@ function Calendar(hourForChangeArg, useISOWeeksArg) {
             adjustDate(yesterday);
             
             // should automatically increase weekday?
-            if (!self.isDifferentDate(yesterday)) {
+            if (self.isSameDate(yesterday)) {
                 self.resetCurrentDate();
             }
 
@@ -188,6 +201,7 @@ function Calendar(hourForChangeArg, useISOWeeksArg) {
     (function constructor() {
         adjustDate(self.currentDate);
         hourForChange = hourForChangeArg;
-        self.setUseISOWeeks(useISOWeeksArg); // calls resetDateUpdateTimer()
+        self.setUseISOWeeks(useISOWeeksArg);
+        resetDateUpdateTimer();
     }());
 };
