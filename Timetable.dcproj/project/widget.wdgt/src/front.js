@@ -67,7 +67,7 @@ function showDay(calendar)
     
     htmlTable.innerHTML = '';
     
-    
+
     if (!widget.preferenceForKey('has' + pseudoType.capitalized())) {
         return;
     }
