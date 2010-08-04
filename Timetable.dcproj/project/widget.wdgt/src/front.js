@@ -68,10 +68,15 @@ function showDay(calendar)
     htmlTable.innerHTML = '';
     
     
+    if (!widget.preferenceForKey('has' + pseudoType.capitalized())) {
+        return;
+    }
+    
+    
     var firstColToPeriod = !!widget.preferenceForKey('firstColToPeriod');
     
-    var subjects = preferenceArrayForKey(pseudoType + day + 'Subjects');
-    var times = preferenceArrayForKey(pseudoType + 'Times')
+    var subjects = JSON.parse(widget.preferenceForKey(pseudoType + day + 'Subjects'));
+    var times = JSON.parse(widget.preferenceForKey(pseudoType + 'Times'));
 
     for (var i = 0; i < subjects.length; ++i) {
         var htmlLesson  = htmlTable.insertRow(i);

@@ -250,8 +250,9 @@ function Editor() {
         
             var timetable = [];
             for (var i = 0; i < 5; ++i) {
-                timetable[i] = preferenceArrayForKey(weekTypeToUse + gWeekdays[i] + 'Subjects');
+                timetable[i] = JSON.parse(widget.preferenceForKey(weekTypeToUse + gWeekdays[i] + 'Subjects'));
             }
+            //var timetable = JSON.parse(widget.preferenceForKey(weekType + 'Subjects'));
             
             
             var row = thead.rows[0];
@@ -262,7 +263,7 @@ function Editor() {
             }
             
             
-            var times = preferenceArrayForKey(weekTypeToUse + 'Times');
+            var times = JSON.parse(widget.preferenceForKey(weekType + 'Times'));
             
             for (var periodIdx = 0; periodIdx < times.length; ++periodIdx) {
                 var row = addRow();

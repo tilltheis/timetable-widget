@@ -75,7 +75,7 @@ function TimetableManager(weekType) {
                        subjects[subjects.length-1].replace(/\s/,'') === ''))
                 subjects.length--;
             
-            setPreferenceArrayForKey(subjects, weekType + gWeekdays[i] + 'Subjects');
+            widget.setPreferenceForKey(JSON.stringify(subjects), weekType + gWeekdays[i] + 'Subjects');
             
             if (subjects.length > maxSubjectsLength) {
                 maxSubjectsLength = subjects.length;
@@ -83,7 +83,7 @@ function TimetableManager(weekType) {
         }
         
         // don't save more times than needed
-        setPreferenceArrayForKey(data.times.slice(0, maxSubjectsLength), weekType + 'Times');
+        widget.setPreferenceForKey(JSON.stringify(data.times.slice(0, maxSubjectsLength)), weekType + 'Times');
         
         widget.setPreferenceForKey(true, 'has' + weekType.capitalized());
         
@@ -122,12 +122,12 @@ function TimetableManager(weekType) {
     this.deleteTimetable = function() {
         var hasTypeStr = 'has' + weekType.capitalized();
         
-        setPreferenceArrayForKey(null, weekType + 'Times');
+        widget.setPreferenceForKey(null, weekType + 'Times');
         
         if (widget.preferenceForKey(hasTypeStr)) {
             for (var i = 0; i < 5; ++i) {
                 widget.setPreferenceForKey(null, weekType + gWeekdays[i] + 'Label');
-                setPreferenceArrayForKey(null, weekType + gWeekdays[i] + 'Subjects');
+                widget.setPreferenceForKey(null, weekType + gWeekdays[i] + 'Subjects');
             }
             
             widget.setPreferenceForKey(false, hasTypeStr);

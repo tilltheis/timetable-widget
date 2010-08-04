@@ -19,7 +19,7 @@ var gVersionNumber = '1.1';
 // Called by HTML body element's onload event when the widget is ready to start
 //
 function load()
-{console.log('LOAD');
+{
     new AppleInfoButton(document.getElementById("info"), document.getElementById("front"), "black", "black", showBack);
     new AppleGlassButton(document.getElementById("done"), getLocalizedString("Done"), showFront);
     new AppleGlassButton(document.getElementById("help"), "?", function() {
@@ -275,81 +275,5 @@ function onFirstLaunch() {
     
     for (var key in keysWithValues) {
         widget.setPreferenceForKey(keysWithValues[key], key);
-    }
-}
-
-
-
-
-
-///////////////////
-///// HELPERS /////
-///////////////////
-
-
-function setPreferenceArrayForKey(arr, key) {
-    if (arr === null || widget.preferenceForKey(key) === '__Array') {
-        unsetPreferenceArrayForKey(key);
-        if (arr === null)
-            return;
-    }
-
-    widget.setPreferenceForKey('__Array', key);
-    
-    for (var i = 0; i < arr.length; ++i) {
-        if (arr[i] instanceof Array)
-            setPreferenceArrayForKey(arr[i], key + '_' + i);
-        else
-            widget.setPreferenceForKey(arr[i], key + '_' + i);
-    }
-}
-
-function preferenceArrayForKey(key) {
-    var curVal = widget.preferenceForKey(key);
-    if (curVal !== '__Array') {
-        if (curVal !== undefined) {
-            console.log("Preference for key '" + key + "' is no array.");
-        }
-        return [];
-    }
-
-    var arr = [];
-    
-    for (var i = 0; ; ++i) {
-        arr[i] = widget.preferenceForKey(key + '_' + i);
-
-        if (typeof arr[i] === 'undefined') {
-            arr.length -= 1;
-            break;
-        }
-            
-        if (arr[i] === '__Array')
-            arr[i] = preferenceArrayForKey(key + '_' + i);
-    }
-
-    return arr;
-}
-
-function unsetPreferenceArrayForKey(key) {
-    var curVal = widget.preferenceForKey(key);
-    if (curVal !== '__Array') {
-        if (curVal !== undefined) {
-            console.log("Preference for key '" + key + "' is no array.");
-        }
-        return;
-    }
-    
-    widget.setPreferenceForKey(null, key);
-
-    for (var i = 0; ; ++i) {
-        var val = widget.preferenceForKey(key + '_' + i);
-        
-        if (typeof val === 'undefined')
-            return;
-            
-        if (val === '__Array')
-            unsetPreferenceArrayForKey(key + '_' + i);
-        else
-            widget.setPreferenceForKey(null, key + '_' + i);
     }
 }
