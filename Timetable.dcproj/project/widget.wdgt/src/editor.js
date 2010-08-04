@@ -252,7 +252,6 @@ function Editor() {
             for (var i = 0; i < 5; ++i) {
                 timetable[i] = JSON.parse(widget.preferenceForKey(weekTypeToUse + gWeekdays[i] + 'Subjects'));
             }
-            //var timetable = JSON.parse(widget.preferenceForKey(weekType + 'Subjects'));
             
             
             var row = thead.rows[0];
@@ -263,7 +262,7 @@ function Editor() {
             }
             
             
-            var times = JSON.parse(widget.preferenceForKey(weekType + 'Times'));
+            var times = JSON.parse(widget.preferenceForKey(weekTypeToUse + 'Times'));
             
             for (var periodIdx = 0; periodIdx < times.length; ++periodIdx) {
                 var row = addRow();
