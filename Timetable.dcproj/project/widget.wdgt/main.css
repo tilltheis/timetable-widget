@@ -265,6 +265,7 @@ a, .external {
 }
 
 
+
 #help, #done {
     margin-bottom: 2px;
 }
@@ -280,11 +281,7 @@ a, .external {
 
 #version {
     color: gray;
-    position: absolute;
-    top: 5px;
-    bottom: 0;
-    left: 27px;
-    right: 50px;
+    padding-top: 5px;
     text-align: center;
     font-size: 12px;
     font-weight: lighter;

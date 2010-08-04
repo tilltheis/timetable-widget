@@ -121,6 +121,9 @@ function setupBehavior() {
                     if (!success && !!widget.preferenceForKey('hasEven')) {
                         indicator.removeClass('no').addClass('yes');
 
+                        // it's ok to do the animation even though the frontside might be shown
+                        // because the side flip takes 750ms which is longer than the needed 200ms
+                        
                         indicator.style.webkitTransition = 'opacity .2s linear 0';
                         indicator.style.opacity = 0;
                         
@@ -307,10 +310,11 @@ function unfreezeBack() {
     var back = $('back');
     
     // the following yields the same result as getHeightOfBack()
-    var height = getStyle(back, 'height', 'i') + getStyle(back, 'top', 'i');
+    var height = getHeightOfBack();
     window.resizeTo(window.innerWidth, height);
+
     back.style.height = '';
-    
+
     back.removeEventListener('click', frozenContainerEventCapturingHandler, true);
     back.removeEventListener('mousedown', frozenContainerEventCapturingHandler, true);
     back.removeEventListener('change', frozenContainerEventCapturingHandler, true);

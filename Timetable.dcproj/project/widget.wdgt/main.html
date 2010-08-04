@@ -1,11 +1,12 @@
 <!doctype html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <title>Timetable Widget</title>
+    <link rel="stylesheet" href="main.css" charset="utf-8"/>
     <script type="text/javascript" src="file:///System/Library/WidgetResources/AppleClasses/AppleAnimator.js" charset="utf-8"></script>
     <script type="text/javascript" src="file:///System/Library/WidgetResources/AppleClasses/AppleButton.js" charset="utf-8"></script>
     <script type="text/javascript" src="file:///System/Library/WidgetResources/AppleClasses/AppleInfoButton.js" charset="utf-8"></script>
-    <link rel="stylesheet" href="main.css" charset="utf-8">
     <script type="text/javascript" src="localizedStrings.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/prototypes.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/csvParser.js" charset="utf-8"></script>
@@ -45,7 +46,7 @@
             <label for="importOptions" class="master expander">Import Options</label>
             <div id="importOptions" class="slave expansible">
                 <div class="master">
-                    <input type="checkbox" id="firstRowToDay" slave="ignoreFirstRow">
+                    <input type="checkbox" id="firstRowToDay" data-slave="ignoreFirstRow">
                     <label for="firstRowToDay">Treat first row as day</label>
                 </div>
                 <div class="slave">
@@ -54,7 +55,7 @@
                 </div>
                 
                 <div class="master">
-                    <input type="checkbox" id="firstColToPeriod" slave="ignoreFirstCol">
+                    <input type="checkbox" id="firstColToPeriod" data-slave="ignoreFirstCol">
                     <label for="firstColToPeriod">Treat first column as period</label>
                 </div>
                 <div class="slave">
@@ -64,10 +65,7 @@
             </div>
             
             <div id="displayNextDayAtHourBox" class="master">
-                <label for="displayNextDayAtHour">Display next day</label>
-                <select id="displayNextDayAtHour">
-                    <option id="displayNextDayAtHourDummy">at %d o'clock</option>
-                </select>
+                <label for="displayNextDayAtHour">Display next day %time-phrase%</label>
             </div>
 
             <div class="master">
@@ -76,10 +74,10 @@
             </div>
 
             
-            <div class="master">
+            <div class="master" id="footer">
                 <div id="help" class="external"></div>
                 <div id="done"></div>
-                <div id="version">Version Number 1.1</div>
+                <div id="version">Version Number %s</div>
             </div>
             
         </div>

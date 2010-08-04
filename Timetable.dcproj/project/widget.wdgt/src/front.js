@@ -90,8 +90,8 @@ function showDay(calendar)
         
         // since v1.1 times are always saved in the preferences
         // the " \b" hack isn't required anymore as well
-        htmlTime.innerHTML    = times[i] ? times[i].escapedForHTML() : "";
+        htmlTime.innerHTML    = (times[i] + '').escapedForHTML();
         
-        htmlSubject.innerHTML = subjects[i].escapedForHTML();
+        htmlSubject.innerHTML = (subjects[i] + '').escapedForHTML();
     }
 }

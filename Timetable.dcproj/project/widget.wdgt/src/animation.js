@@ -265,14 +265,25 @@ var setValueForIndicator = function(value, indicator, onComplete) {
             }, 0);
         }
         
-        indicator.addEventListener('webkitAnimationEnd', function callback() {
+        
+        // dont only use event listeners on the indicator because they wont trigger if animation cant finish
+        // e.g. when front is shown before animation did finish it will continue when the user comes back
+        
+        var back = $('back');
+
+        var callback = function() {
+            back.removeEventListener('showFront', callback, false);
             indicator.removeEventListener('webkitAnimationEnd', callback, false);
+            
             indicator.removeClass('updated');
 
             if (typeof onComplete === 'function') {
                 onComplete.call(indicator);
             }
-        }, false);
+        };
+        
+        indicator.addEventListener('webkitAnimationEnd', callback, false);
+        back.addEventListener('showFront', callback, false);
     }, 0);
 }
 
@@ -287,7 +298,7 @@ var setValueForIndicator = function(value, indicator, onComplete) {
 var getStyle = function(el, prop, type) {
     var style = document.defaultView.getComputedStyle(el, null).getPropertyValue(prop);
     
-         if (type === 'i') style = parseInt(style)
+         if (type === 'i') style = parseInt(style, 10);
     else if (type === 'f') style = parseFloat(style);
     
     return style;

@@ -4,8 +4,6 @@
 <dict>
 	<key>AllowSystem</key>
 	<true/>
-	<key>AllowNetworkAccess</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
@@ -19,9 +17,9 @@
 	<key>CloseBoxInsetX</key>
 	<integer>150</integer>
 	<key>CloseBoxInsetY</key>
-	<integer>25</integer>
+	<integer>0</integer>
 	<key>Height</key>
-	<integer>322</integer>
+	<integer>350</integer>
 	<key>MainHTML</key>
 	<string>main.html</string>
 	<key>Width</key>

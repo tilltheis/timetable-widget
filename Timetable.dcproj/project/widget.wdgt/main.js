@@ -11,6 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 var gWeekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 var gCalendar;
+var gVersionNumber = '1.1';
 
 
 //
@@ -41,12 +42,6 @@ function load()
     
     showDay(gCalendar);
     resizeWidgetToShowFront();
-    
-    
-    //return;
-    $('front').style.display='none';
-    $('back').style.display='block';
-    resizeWidgetToShowBack();
 }
 
 function remove()
@@ -83,9 +78,16 @@ function sync()
 
 
 
-function showBack(event) {
+function showBack() {
     var front = document.getElementById("front");
     var back = document.getElementById("back");
+    
+    
+    // trigger custom event
+    var event = document.createEvent('UIEvent');
+    event.initEvent('showBack', true, false);
+    back.dispatchEvent(event);
+
 
     resizeWidgetToShowBack(function() {
         widget.prepareForTransition("ToBack");
@@ -93,6 +95,7 @@ function showBack(event) {
         front.style.display = "none";
         back.style.display = "block";
     
+        // the timeout is required. display bugs would occur otherwise
         setTimeout(function() {
             widget.performTransition();
         }, 0);
@@ -101,24 +104,33 @@ function showBack(event) {
 
 
 
-function showFront(event)
+function showFront()
 {
     var front = document.getElementById("front");
     var back = document.getElementById("back");
+    
+    
+    // trigger custom event
+    var event = document.createEvent('UIEvent');
+    event.initEvent('showFront', true, false);
+    back.dispatchEvent(event);
+
 
     widget.prepareForTransition("ToFront");
         
-    back.style.display="none";
-    front.style.display="block";
+    back.style.display = "none";
+    front.style.display = "block";
+    
+    showDay(gCalendar);
 
+    // the timeout is required. display bugs would occur otherwise
     setTimeout(function() {
         widget.performTransition();
-    }, 0);
 
-    setTimeout(function() {
-        showDay(gCalendar);
-        resizeWidgetToShowFront();
-    }, 750);
+        setTimeout(function() {
+            resizeWidgetToShowFront();
+        }, 750);
+    }, 0);
 }
 
 if (window.widget) {
@@ -171,32 +183,47 @@ function localizeWidget() {
     ];
     
     
+    var hourLabel;
+    
     var els = document.getElementsByTagName('label');
     
     for (var i = 0; i < els.length; ++i) {
         // use innerHTML to translate html links
-        els[i].innerHTML = getLocalizedString(els[i].innerHTML);
+        var el = els[i];
+        el.innerHTML = getLocalizedString(els[i].innerHTML);
+        
+        if (el.htmlFor === 'displayNextDayAtHour') {
+            hourLabel = el;
+        }
+    }
+    
+    var version = $('version');
+    version.innerHTML = getLocalizedString(version.innerHTML);
+    version.innerHTML = version.innerHTML.replace(/%s/, gVersionNumber);
+    
+    
+    if (!hourLabel || hourLabel.innerHTML.indexOf('%time-phrase%') === -1) {
+        throw 'localizeWidget(): No "%time-phrase%" string found in label for "displayNextDayAtHour"';
     }
     
 
-    var opt, txt;
+    var text = getLocalizedString('%time-phrase%');
     
-    txt = document.getElementById('displayNextDayAtHourDummy').innerText;
-    txt = getLocalizedString(txt);
-    
-    var el = document.getElementById('displayNextDayAtHour');
-    el.innerHTML = '';
+    var select = document.createElement('select');
+    select.id = 'displayNextDayAtHour';
     
     for (var i = 0; i < 24; ++i) {
-        opt = document.createElement('option');
-        opt.value = i;
-        opt.innerText = txt.replace('\%d', i);
+        var option = document.createElement('option');
+        option.value = i;
+        option.text = text.replace('\%d', i);
         
         // obey local conventions for counting (i.e. "1 hours" => "1 hour")
-        opt.innerText = getLocalizedString(opt.innerText);
+        option.text = getLocalizedString(option.text);
         
-        el.options.add(opt);
+        select.options.add(option); // options.add(opt, null) inserts at the beginning
     }
+    
+    hourLabel.innerHTML = hourLabel.innerHTML.replace(/%time-phrase%/, select.outerHTML);
 }
 
 
@@ -214,9 +241,9 @@ function loadWidgetState() {
         var checkbox = inputs[i];
 
         checkbox.checked = !!widget.preferenceForKey(checkbox.id);
-        
-        if (checkbox.hasAttribute('slave')) {
-            var slaves = checkbox.getAttribute('slave').split(' ');
+
+        if (checkbox.hasAttribute('data-slave')) {
+            var slaves = checkbox.getAttribute('data-slave').split(' ');
             
             for (var j = 0; j < slaves.length; ++j) {
                 $(slaves[j]).disabled = !checkbox.checked;
@@ -234,6 +261,9 @@ function loadWidgetState() {
     var i = +widget.preferenceForKey('displayNextDayAtHour');
     var el = $('displayNextDayAtHour');
     el.options[i].selected = true;
+    
+    
+    
 }
 
 

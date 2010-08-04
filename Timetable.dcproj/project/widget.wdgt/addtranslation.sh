@@ -12,6 +12,13 @@
 
 #!/bin/sh
 
+if [ $# -ne 6 ] ; then
+    echo "Usage: `basename $0` language_designation monday tuesday wednesday thursday friday"
+    echo 'Example: en Monday Tuesday Wednesday Thursday Friday'
+    echo '         where en.lproj/ must exist in the current working directory'
+    exit 1
+fi
+
 dir=$1.lproj
 file=localizedStrings.js
 

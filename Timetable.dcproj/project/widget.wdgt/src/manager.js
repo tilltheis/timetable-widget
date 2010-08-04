@@ -42,16 +42,31 @@ function TimetableManager(weekType) {
 
 
     // data = { table:[days][lessons], days:[], times:[] };
-    this.importFromObject = function(data) {        
-        setPreferenceArrayForKey(data.times, weekType + 'Times');
+    this.importFromObject = function(data) {
+        var table = data.table;
+    
+        if (data.days.length !== 5) {
+            triggerOnFailure();
+            return false;
+        }
+        
+        for (var i = 0; i < table.length; ++i) {
+            if (table[i].length !== 5) {
+                triggerOnFailure();
+                return false;
+            }
+        }
+        
+    
+        var maxSubjectsLength = 0;
 
         for (var i = 0; i < 5; ++i) {
             widget.setPreferenceForKey(data.days[i], weekType + gWeekdays[i] + 'Label');
             
             var subjects = [];
             
-            for (var j = 0; j < data.table.length; ++j) {
-                subjects[j] = data.table[j][i];
+            for (var j = 0; j < table.length; ++j) {
+                subjects[j] = table[j][i];
             }
 
             // remove trailing empty entries
@@ -61,7 +76,14 @@ function TimetableManager(weekType) {
                 subjects.length--;
             
             setPreferenceArrayForKey(subjects, weekType + gWeekdays[i] + 'Subjects');
+            
+            if (subjects.length > maxSubjectsLength) {
+                maxSubjectsLength = subjects.length;
+            }
         }
+        
+        // don't save more times than needed
+        setPreferenceArrayForKey(data.times.slice(0, maxSubjectsLength), weekType + 'Times');
         
         widget.setPreferenceForKey(true, 'has' + weekType.capitalized());
         
@@ -73,7 +95,7 @@ function TimetableManager(weekType) {
     this.importFromCSV = function(path) {
         path = normalizePath(path);
     
-        if (!isValidCSVFile(path)) {
+        if (!isCSVFile(path)) {
             triggerOnFailure();
             return false;
         }
@@ -85,7 +107,14 @@ function TimetableManager(weekType) {
             return false;
         }
         
-        var obj = csvStringToObject(csvString);
+        var obj;
+        
+        try {
+            obj = csvStringToObject(csvString);
+        } catch (ex) {
+            triggerOnFailure();
+            return false;
+        }
 
         return this.importFromObject(obj);
     };
@@ -153,8 +182,7 @@ function TimetableManager(weekType) {
         return cmd.outputString.substr(0, cmd.outputString.length-1);
     }
 
-
-
+    // csvToArray() throws !
     var csvStringToObject = function(csvString) {
 
         var table = [];
@@ -173,7 +201,7 @@ function TimetableManager(weekType) {
         if (firstRowToWeekday) {
             if (!firstRowToWeekdayIgnore) {
                 var i = firstColToTime ? 1 : 0;
-                for (var j = 0; i < gWeekdays.length; ++i, ++j) {
+                for (var j = 0; j < 5; ++i, ++j) {
                     data.days[j] = table[0][i];
                 }
             }
@@ -213,7 +241,7 @@ function TimetableManager(weekType) {
 
     }
     
-    var isValidCSVFile = function(path) {
+    var isCSVFile = function(path) {
         try {
             // only one file
             if (path.indexOf("\n") === -1) {

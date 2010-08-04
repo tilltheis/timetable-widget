@@ -27,6 +27,10 @@ if (!String.prototype.csvSplit) {
             var offset = 1;
 
             while (0 != (columns[i].substrCount('"') % 2)) { // odd ( "xy"", )
+                if (i + offset >= columns.length) {
+                    throw 'String.prototype.csvSplit(): Malformed CSV string (unclosed double quote)';
+                }
+            
                 columns[i] += sep + columns[i + offset];
 
                 ++offset;
@@ -47,7 +51,8 @@ if (!String.prototype.csvSplit) {
 var csvToArray = function(str, lineSeparator, columnSeparator) {
     str = str.replace(/^\s+/, '').replace(/\s+$/, '');
 
-    var lineSeparators = lineSeparator ? [lineSeparator] : ["\n", "\r"]; // "\n" also matches "\r\n" ("\r" will be trimmed)
+    // "\n" also matches "\r\n" ("\r" will be trimmed)
+    var lineSeparators = lineSeparator ? [lineSeparator] : ["\n", "\r"];
     var columnSeparators = columnSeparator ? [columnSeparator] : [';', ','];
     
     
@@ -82,6 +87,25 @@ var csvToArray = function(str, lineSeparator, columnSeparator) {
         
         if (columns.length > 0 && columns[0].length > 1) {
             break;
+        }
+    }
+        
+        
+    // validate number of columns for each row
+    if (columns.length > 0) {
+        var numCols, prevNumCols;
+        
+        prevNumCols = columns[0].length;
+        
+        for (var i = 1; i < columns.length; ++i) {
+            numCols = columns[i].length;
+            
+            if (numCols !== prevNumCols) {
+                alert('row: ' + i + ' cols: ' + numCols + ' prevCols: ' + prevNumCols);
+                throw 'csvToArray(): Malformed CSV string (differing number of columns)';
+            }
+            
+            prevNumCols = numCols;
         }
     }
     
