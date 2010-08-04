@@ -1,1 +1,2 @@
 (impossible (max 100 px)) adjust remove icon (on pressing ALT)
+"Version Number" -> "Version"

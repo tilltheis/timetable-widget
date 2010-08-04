@@ -13,7 +13,7 @@
 	<key>CFBundleName</key>
 	<string>Timetable</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CloseBoxInsetX</key>
 	<integer>150</integer>
 	<key>CloseBoxInsetY</key>

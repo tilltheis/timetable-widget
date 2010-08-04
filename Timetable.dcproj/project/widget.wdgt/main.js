@@ -19,7 +19,7 @@ var gVersionNumber = '1.1';
 // Called by HTML body element's onload event when the widget is ready to start
 //
 function load()
-{
+{console.log('LOAD');
     new AppleInfoButton(document.getElementById("info"), document.getElementById("front"), "black", "black", showBack);
     new AppleGlassButton(document.getElementById("done"), getLocalizedString("Done"), showFront);
     new AppleGlassButton(document.getElementById("help"), "?", function() {
@@ -42,11 +42,6 @@ function load()
     
     showDay(gCalendar);
     resizeWidgetToShowFront();
-}
-
-function remove()
-{
-    gCalendar.setAutoDateUpdate(false);
 }
 
 function hide()
@@ -134,7 +129,6 @@ function showFront()
 }
 
 if (window.widget) {
-    widget.onremove = remove;
     widget.onhide = hide;
     widget.onshow = show;
     widget.onsync = sync;
