@@ -83,7 +83,6 @@ if (Element.prototype.getOffset === undefined) {
 /*     document     */
 /********************/
 
-
 if (document.getElementsByClassName === undefined) {
     document.getElementsByClassName = function(cl) {
         return document.body.getElementsByClassName(cl);

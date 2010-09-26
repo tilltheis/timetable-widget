@@ -276,8 +276,8 @@ function setupBehavior() {
 
     // add folding functionality
     var els = [];
-    els = els.concat(document.getElementsByClassName('expander'));
-    els = els.concat(document.getElementsByClassName('collapser'));
+    els = els.concat(Array.prototype.slice.call(document.getElementsByClassName('expander')));
+    els = els.concat(Array.prototype.slice.call(document.getElementsByClassName('collapser')));
     for (var i = 0; i < els.length; ++i) {
         els[i].addEventListener('click', function() {
             foldSection(this);
