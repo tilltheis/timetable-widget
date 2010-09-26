@@ -11,7 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 var gWeekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 var gCalendar;
-var gVersionNumber = '1.1';
+var gVersionNumber = '1.1.1';
 
 
 //
