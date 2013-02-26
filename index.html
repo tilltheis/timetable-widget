@@ -31,12 +31,64 @@
       </header>
       <section>
         <h1>Timetable Widget</h1>
+        <p>This is a Mac Dashboard widget to display a student's timetable.</p>
+        <p>The widget supports different timetables for odd and even weeks which either can be created using the built-in editor or alternatively can be imported from files in the common CSV format which every spreadsheet program can export to.</p>
+
+        <h2>Importing An Existing Timetable</h2>
+        <p>To import your timetable into the widget, simply drag'n'drop it onto the corresponding box on the widget's back. You can do so by starting to drag the CSV-file in Finder.app and then opening Dashboard.app by pressing F12 (or F4 on a Macbook) where you can drop it.</p>
+        <p>If you are not satisfied with anything concerning the widget or want to improve the translation please send me an <a href="/#about">email</a>.</p>
+        <p>The contents of the import file should look like this:</p>
+        <table>
+        <tr><th></th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr>
+        <tr><th>Class 1</th><td>English</td><td>Physics</td><td>English</td><td>Physics</td><td>English</td></tr>
+        <tr><th>Class 2</th><td>English</td><td>Physics</td><td>English</td><td>Physics</td><td>English</td></tr>
+        <tr><th>Class 3</th><td>English</td><td>Physics</td><td>English</td><td>Physics</td><td>English</td></tr>
+        <tr><td colspan="6">...</td></tr>
+        </table>
+        <p>This format is required but the first row (weekdays) as well as the first column (times) can be omitted (that has to be specified in the import options).</p>
+
+        <h2 id="isoWeeks">ISO Weeks</h2>
+        <p>If you are curious what the "use ISO weeks" checkbox on the back side is good for: it's there because different countries use different systems for counting the weeks of a year. If weeks start on Sunday in your country you don't want to use ISO week counting (January 1st is always in week one), if weeks start on Monday then you want the ISO system. If you don't use different timetables for odd and even weeks you can safely ignore this option.</p>
+
+        <h2>Screenshots</h2>
+        <p><img src="images/icon.png" alt="the widget's icon"><img src="images/front.png" alt="the widget's front side"><img src="images/back.png" alt="the widget's back side"><img src="images/editor.png" alt="the widget's back side with opened editor"></p>
+
+        <h2 id="attribution">Attribution</h2>
+        <ul>
+            <li>The Blokletters font visible on the front side is by <a href="http://lefly.vepar.nl/">LeFly</a> (<a href="http://creativecommons.org/licenses/by-sa/2.5/nl/deed.en">license</a>).</li>
+            <li>The forward and backward pointing arrows were created by <a href="http://myukiori.deviantart.com/">myukiori</a> and <a href="http://hika-hika.deviantart.com/">hika-hika</a> (<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/">license</a>).</li>
+        </ul>
+        <p>Great thanks goes to these artists for their work.</p>
+
+        <h2>Available Languages</h2>
+        Entirely Localized:
+        <ul>
+            <li>English</li>
+            <li>German</li>
+        </ul>
+        Weekdays Only:
+        <ul>
+            <li>Danish</li>
+            <li>Dutch</li>
+            <li>Finnish</li>
+            <li>French</li>
+            <li>Italian</li>
+            <li>Norwegian</li>
+            <li>Polish</li>
+            <li>Portuguese</li>
+            <li>Russian</li>
+            <li>Spanish</li>
+            <li>Swedish</li>
+        </ul>
+
+        <h2>Installation Instructions</h2>
+        <p>Mac OS X 10.4 Tiger is required. If you’re using Safari, click the download link. When the widget download is complete, show Dashboard, click the Plus sign to display the Widget Bar and click the widget’s icon in the Widget Bar to open it. If you’re using a browser other than Safari, click the download link. When the widget download is complete, unarchive it and place it in <nobr>/Library/Widgets/</nobr> in your home folder. show Dashboard, click the Plus sign to display the Widget Bar and click the widget’s icon in the Widget Bar to open it.</p>
       </section>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+
   </body>
 </html>
